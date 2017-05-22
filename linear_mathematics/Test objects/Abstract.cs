@@ -8,5 +8,6 @@
         {
             return first.Add(second);
         }
+        public static Abstract Twice(Abstract element) => element + element;
     }
 }

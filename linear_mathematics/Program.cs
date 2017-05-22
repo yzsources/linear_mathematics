@@ -9,7 +9,7 @@ namespace linear_mathematics
         {
             var c1 = new ComplexNumber(1, 0);
             var c2 = new ComplexNumber(0, 1);
-            Console.WriteLine((c1 + c2).ToString());
+            Console.WriteLine(((ComplexNumber)(Abstract.Twice(c1)+c2)).Norm.ToString());
             Console.ReadKey();
         }
     }

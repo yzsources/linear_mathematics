@@ -19,6 +19,8 @@ namespace linear_mathematics.Test_objects
             set => _imaginary = value;
         }
 
+
+
         public ComplexNumber(double real, double imaginary)
         {
             _real = real;
@@ -28,7 +30,9 @@ namespace linear_mathematics.Test_objects
         {
             return Real.ToString() + " " + Imaginary.ToString();
         }
-        protected override Abstract Add(Abstract another)
+
+        public double Norm => Math.Sqrt(Real*Real+Imaginary*Imaginary);
+        protected override Abstract Add(Abstract another) 
         {
             return new ComplexNumber(Real+((ComplexNumber)another).Real, Imaginary+((ComplexNumber)another).Imaginary);
         }

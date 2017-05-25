@@ -42,19 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algebra objects\AdditiveElement.cs" />
-    <Compile Include="Algebra objects\EuclideanDomainElement.cs" />
-    <Compile Include="Algebra objects\FieldElement.cs" />
-    <Compile Include="Algebra objects\OrderedFieldElement.cs" />
-    <Compile Include="Algebra objects\RingElement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test objects\Abstract.cs" />
-    <Compile Include="Test objects\ComplexNumber.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Algebra objects\" />
+    <Folder Include="Test objects\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

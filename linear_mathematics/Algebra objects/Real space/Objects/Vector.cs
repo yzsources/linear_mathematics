@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace linear_mathematics.Algebra_objects
 {
 
-    public class DoubleVector
+    public class Vector
     {
 
         #region private
@@ -27,7 +27,7 @@ namespace linear_mathematics.Algebra_objects
         /// Constructor with preassigned dimension. Coordinates are zero-filled.
         /// </summary>
         /// <param name="dimension">Number of coordinates</param>
-        public DoubleVector(int dimension)
+        public Vector(int dimension)
         {
             if (dimension < 1) throw
                     new ArgumentOutOfRangeException(nameof(dimension), "Dimension must be positive");
@@ -41,7 +41,7 @@ namespace linear_mathematics.Algebra_objects
         /// </summary>
         /// <param name="dimension">Number of coordinates</param>
         /// <param name="coordinates">Array of preassigned coordinates</param>
-        public DoubleVector(int dimension, params double[] preassignedCoordinates)
+        public Vector(int dimension, params double[] preassignedCoordinates)
         {
             if (dimension < 1) throw
                     new ArgumentOutOfRangeException(nameof(dimension), "Dimension must be positive");
@@ -57,7 +57,7 @@ namespace linear_mathematics.Algebra_objects
         /// Constructor with preassigned coordinates.
         /// </summary>
         /// <param name="preassignedCoordinates">List of preassigned coordinates</param>
-        public DoubleVector(List<double> preassignedCoordinates)
+        public Vector(List<double> preassignedCoordinates)
         {
             if (preassignedCoordinates == null) throw
                     new ArgumentNullException(nameof(preassignedCoordinates), "List cannot be NULL");
@@ -73,7 +73,7 @@ namespace linear_mathematics.Algebra_objects
         /// Constructor with preassigned coordinates.
         /// </summary>
         /// <param name="preassignedCoordinates">Array of preassigned coordinates</param>
-        public DoubleVector(params double[] preassignedCoordinates)
+        public Vector(params double[] preassignedCoordinates)
         {
             if (preassignedCoordinates == null) throw
                     new ArgumentNullException(nameof(preassignedCoordinates), "Array cannot be NULL");
@@ -157,29 +157,29 @@ namespace linear_mathematics.Algebra_objects
 
         #region Linear space and eucledian operations
 
-        public static DoubleVector operator +(DoubleVector vector1, DoubleVector vector2)
+        public static Vector operator +(Vector vector1, Vector vector2)
         {
             var resultDimension = (vector1.Dimension >= vector2.Dimension) ? vector1.Dimension : vector2.Dimension;
-            var result = new DoubleVector(resultDimension);
+            var result = new Vector(resultDimension);
             for (var i = 0; i < resultDimension; i++)
                 result[i] = ((i < vector1.Dimension) ? vector1[i] : 0) +
                     ((i < vector2.Dimension) ? vector2[i] : 0);
             return result;
         }
 
-        public static DoubleVector operator -(DoubleVector vector1, DoubleVector vector2)
+        public static Vector operator -(Vector vector1, Vector vector2)
         {
             var resultDimension = (vector1.Dimension >= vector2.Dimension) ? vector1.Dimension : vector2.Dimension;
-            var result = new DoubleVector(resultDimension);
+            var result = new Vector(resultDimension);
             for (var i = 0; i < resultDimension; i++)
                 result[i] = ((i < vector1.Dimension) ? vector1[i] : 0) -
                     ((i < vector2.Dimension) ? vector2[i] : 0);
             return result;
         }
 
-        public static DoubleVector operator *(double coefficient, DoubleVector vector)
+        public static Vector operator *(double coefficient, Vector vector)
         {
-            var result = new DoubleVector(vector._array);
+            var result = new Vector(vector._array);
             for (var i = 0; i < result.Dimension; i++) result[i] *= coefficient;
             return result;
         }
@@ -190,7 +190,7 @@ namespace linear_mathematics.Algebra_objects
         /// <param name="vector1"></param>
         /// <param name="vector2"></param>
         /// <returns></returns>
-        public static double operator *(DoubleVector vector1, DoubleVector vector2)
+        public static double operator *(Vector vector1, Vector vector2)
         {
             var resultDimension = (vector1.Dimension <= vector2.Dimension) ? vector1.Dimension : vector2.Dimension;
             var result = 0.0;
@@ -284,11 +284,11 @@ namespace linear_mathematics.Algebra_objects
         /// Returns normed vector with p-norm
         /// </summary>
         /// <param name="p">Index of Holder-space. (For Eucledian space p=2)</param>
-        public DoubleVector PNormed(double p)
+        public Vector PNormed(double p)
         {
             if (p < 1) throw
                     new ArgumentOutOfRangeException(nameof(p), "Argument cannot be less than 1");
-            var result = new DoubleVector(_array);
+            var result = new Vector(_array);
             result.PNorming(p);
             return result;
         }
@@ -297,9 +297,9 @@ namespace linear_mathematics.Algebra_objects
         /// Returns norm vector with maximum norm
         /// </summary>
         /// <returns></returns>
-        public DoubleVector Normed()
+        public Vector Normed()
         {
-            var result = new DoubleVector(_array);
+            var result = new Vector(_array);
             result.Norming();
             return result;
         }
@@ -308,9 +308,9 @@ namespace linear_mathematics.Algebra_objects
         /// Returns norm vector with Eucledian norm
         /// </summary>
         /// <returns></returns>
-        public DoubleVector EucledianNormed()
+        public Vector EucledianNormed()
         {
-            var result = new DoubleVector(_array);
+            var result = new Vector(_array);
             result.EucledianNorming();
             return result;
         }
@@ -322,7 +322,7 @@ namespace linear_mathematics.Algebra_objects
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
-            var temp = obj as DoubleVector;
+            var temp = obj as Vector;
             if ((object)temp == null) return false;
             return (temp - this).IfZero;
         }
@@ -332,12 +332,12 @@ namespace linear_mathematics.Algebra_objects
             return _dimension.GetHashCode() ^ _array.GetHashCode();
         }
 
-        public static bool operator ==(DoubleVector vector1, DoubleVector vector2)
+        public static bool operator ==(Vector vector1, Vector vector2)
         {
             return vector1.Equals(vector2);
         }
 
-        public static bool operator !=(DoubleVector vector1, DoubleVector vector2)
+        public static bool operator !=(Vector vector1, Vector vector2)
         {
             return !vector1.Equals(vector2);
         }

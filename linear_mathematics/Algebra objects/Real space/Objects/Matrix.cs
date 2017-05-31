@@ -2,7 +2,7 @@
 
 namespace linear_mathematics.Algebra_objects
 {
-    public class DoubleMatrix
+    public class Matrix
     {
 
         #region private
@@ -31,7 +31,7 @@ namespace linear_mathematics.Algebra_objects
         /// </summary>
         /// <param name="linesCount">Number of lines</param>
         /// <param name="columnsCount">Number of columns</param>
-        public DoubleMatrix(int linesCount, int columnsCount)
+        public Matrix(int linesCount, int columnsCount)
         {
             if (linesCount < 1) throw
                     new ArgumentOutOfRangeException(nameof(linesCount),"Count of lines must be positive");
@@ -50,7 +50,7 @@ namespace linear_mathematics.Algebra_objects
         /// <param name="linesCount">Number of lines</param>
         /// <param name="columnsCount">Number of columns</param>
         /// <param name="preassignedCoordinates">Array of preassigned elements</param>
-        public DoubleMatrix(int linesCount, int columnsCount, double[,] preassignedCoordinates)
+        public Matrix(int linesCount, int columnsCount, double[,] preassignedCoordinates)
         {
             if (linesCount < 1) throw
                     new ArgumentOutOfRangeException(nameof(linesCount), "Count of lines must be positive");
@@ -71,7 +71,7 @@ namespace linear_mathematics.Algebra_objects
         /// Constructor with preassigned elements
         /// </summary>
         /// <param name="preassignedCoordinates">Array of preassigned elements</param>
-        public DoubleMatrix(double[,] preassignedCoordinates)
+        public Matrix(double[,] preassignedCoordinates)
         {
             if (preassignedCoordinates == null) throw
                        new ArgumentNullException(nameof(preassignedCoordinates), "Array cannot be NULL");
@@ -121,35 +121,35 @@ namespace linear_mathematics.Algebra_objects
 
         public double[,] ToArray() => _array;
 
-        public DoubleVector[] Lines
+        public Vector[] Lines
         {
             get
             {
-                var result = new DoubleVector[_linesCount];
+                var result = new Vector[_linesCount];
                 for(var i = 0; i < _linesCount; i++)
                 {
-                    result[i] = new DoubleVector(_columnsCount);
+                    result[i] = new Vector(_columnsCount);
                     for (var j = 0; j < _columnsCount; j++) result[i][j] = _array[i, j];
                 }
                 return result;
             }
         }
 
-        public DoubleVector[] Columns
+        public Vector[] Columns
         {
             get
             {
-                var result = new DoubleVector[_columnsCount];
+                var result = new Vector[_columnsCount];
                 for(var j = 0; j < _columnsCount; j++)
                 {
-                    result[j] = new DoubleVector(_linesCount);
+                    result[j] = new Vector(_linesCount);
                     for (var i = 0; i < _linesCount; i++) result[j][i] = _array[i, j];
                 }
                 return result;
             }
         }
 
-        public void VectorToLine(int lineIndex, DoubleVector vector)
+        public void VectorToLine(int lineIndex, Vector vector)
         {
             if (lineIndex < 0 || lineIndex >= _linesCount) throw
                     new ArgumentOutOfRangeException(nameof(lineIndex), "Index is out of range");
@@ -157,7 +157,7 @@ namespace linear_mathematics.Algebra_objects
                 _array[lineIndex, j] = (j < vector.Dimension) ? vector[j] : 0;
         }
 
-        public void VectorToColumn(int columnIndex, DoubleVector vector)
+        public void VectorToColumn(int columnIndex, Vector vector)
         {
             if (columnIndex < 0 || columnIndex >= _columnsCount) throw
                     new ArgumentOutOfRangeException(nameof(columnIndex), "Index is out of range");
@@ -216,13 +216,13 @@ namespace linear_mathematics.Algebra_objects
 
         #region Linear space operations
 
-        public static DoubleMatrix operator + (DoubleMatrix matrix1, DoubleMatrix matrix2)
+        public static Matrix operator + (Matrix matrix1, Matrix matrix2)
         {
             var resultColumnsCount = (matrix1.ColumnsCount >= matrix2.ColumnsCount) ? 
                 matrix1.ColumnsCount : matrix2.ColumnsCount;
             var resultLinesCount = (matrix1.LinesCount >= matrix2.LinesCount) ?
                 matrix1.LinesCount : matrix2.LinesCount;
-            var result = new DoubleMatrix(resultLinesCount, resultColumnsCount);
+            var result = new Matrix(resultLinesCount, resultColumnsCount);
             for (var i = 0; i < resultLinesCount; i++)
                 for (var j = 0; j < resultColumnsCount; j++)
                     result[i, j] = ((i < matrix1.LinesCount && j < matrix1.ColumnsCount) ? matrix1[i, j] : 0) +
@@ -230,13 +230,13 @@ namespace linear_mathematics.Algebra_objects
             return result;
         }
 
-        public static DoubleMatrix operator - (DoubleMatrix matrix1, DoubleMatrix matrix2)
+        public static Matrix operator - (Matrix matrix1, Matrix matrix2)
         {
             var resultColumnsCount = (matrix1.ColumnsCount >= matrix2.ColumnsCount) ?
                 matrix1.ColumnsCount : matrix2.ColumnsCount;
             var resultLinesCount = (matrix1.LinesCount >= matrix2.LinesCount) ?
                 matrix1.LinesCount : matrix2.LinesCount;
-            var result = new DoubleMatrix(resultLinesCount, resultColumnsCount);
+            var result = new Matrix(resultLinesCount, resultColumnsCount);
             for (var i = 0; i < resultLinesCount; i++)
                 for (var j = 0; j < resultColumnsCount; j++)
                     result[i, j] = ((i < matrix1.LinesCount && j < matrix1.ColumnsCount) ? matrix1[i, j] : 0) -
@@ -244,43 +244,43 @@ namespace linear_mathematics.Algebra_objects
             return result;
         }
 
-        public static DoubleMatrix operator * (double coefficient, DoubleMatrix matrix)
+        public static Matrix operator * (double coefficient, Matrix matrix)
         {
-            var result = new DoubleMatrix(matrix._array);
+            var result = new Matrix(matrix._array);
             for (var i = 0; i < result._linesCount; i++)
                 for (var j = 0; j < result._columnsCount; j++) result[i, j] *= coefficient;
             return result;
         }
 
-        public static DoubleMatrix operator * (DoubleMatrix matrix1, DoubleMatrix matrix2)
+        public static Matrix operator * (Matrix matrix1, Matrix matrix2)
         {
             if (matrix1.ColumnsCount != matrix2.LinesCount) throw
                        new ArgumentException("Columns count of 1st matrix must be equal to lines count of 2nd matrix");
             var resultColumnsCount = matrix2.ColumnsCount;
             var resultLinesCount = matrix1.LinesCount;
-            var result = new DoubleMatrix(resultLinesCount, resultColumnsCount);
+            var result = new Matrix(resultLinesCount, resultColumnsCount);
             for (var i = 0; i < resultLinesCount; i++)
                 for (var j = 0; j < resultColumnsCount; j++)
                     result[i, j] = matrix1.Lines[i] * matrix2.Columns[j];
             return result;
         }
 
-        public static DoubleVector operator * (DoubleMatrix matrix, DoubleVector vector)
+        public static Vector operator * (Matrix matrix, Vector vector)
         {
             if (matrix.ColumnsCount != vector.Dimension) throw
                      new ArgumentException("Columns count of matrix must be equal to elements count of vector");
             var resultDimension = matrix.LinesCount;
-            var result = new DoubleVector(resultDimension);
+            var result = new Vector(resultDimension);
             for (var i = 0; i < resultDimension; i++)
                 result[i] = matrix.Lines[i] * vector;
             return result;
         }
 
-        public DoubleMatrix Transposed
+        public Matrix Transposed
         {
             get
             {
-                var result = new DoubleMatrix(_columnsCount, _linesCount);
+                var result = new Matrix(_columnsCount, _linesCount);
                 for(var i = 0; i < _linesCount; i++)
                 {
                     result.VectorToColumn(i,Lines[i]);
@@ -300,9 +300,9 @@ namespace linear_mathematics.Algebra_objects
             }
         }
 
-        public DoubleMatrix LeftSqr { get => this * Transposed; }
+        public Matrix LeftSqr { get => this * Transposed; }
 
-        public DoubleMatrix RightSqr { get => Transposed * this; }
+        public Matrix RightSqr { get => Transposed * this; }
 
         #endregion
 
@@ -411,7 +411,7 @@ namespace linear_mathematics.Algebra_objects
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
-            var temp = obj as DoubleMatrix;
+            var temp = obj as Matrix;
             if ((object)temp == null) return false;
             return (temp - this).IfZero;
         }
@@ -421,12 +421,12 @@ namespace linear_mathematics.Algebra_objects
             return _linesCount.GetHashCode() ^ _columnsCount.GetHashCode() ^ _array.GetHashCode();
         }
 
-        public static bool operator == (DoubleMatrix matrix1, DoubleMatrix matrix2)
+        public static bool operator == (Matrix matrix1, Matrix matrix2)
         {
             return matrix1.Equals(matrix2);
         }
 
-        public static bool operator != (DoubleMatrix matrix1, DoubleMatrix matrix2)
+        public static bool operator != (Matrix matrix1, Matrix matrix2)
         {
             return !matrix1.Equals(matrix2);
         }

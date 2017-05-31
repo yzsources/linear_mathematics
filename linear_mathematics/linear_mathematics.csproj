@@ -42,8 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algebra objects\DoubleMatrix.cs" />
-    <Compile Include="Algebra objects\DoubleVector.cs" />
+    <Compile Include="Algebra objects\Real space\Problems\Decomposition.cs" />
+    <Compile Include="Algebra objects\Real space\Objects\Matrix.cs" />
+    <Compile Include="Algebra objects\Real space\Objects\Vector.cs" />
+    <Compile Include="Algebra objects\Real space\Problems\EigenValues.cs" />
+    <Compile Include="Algebra objects\Real space\Problems\LinearSystem.cs" />
+    <Compile Include="Algebra objects\Real space\Problems\SingularValues.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,6 +56,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Algebra objects\Complex space\" />
     <Folder Include="Test objects\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

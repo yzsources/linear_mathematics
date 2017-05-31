@@ -128,14 +128,14 @@ namespace linear_mathematics.Algebra_objects
         {
             get
             {
-                if (index < 1 || index >= _dimension)
+                if (index < 0 || index >= _dimension)
                     throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range");
                 return _array[index];
             }
 
             set
             {
-                if (index < 1 || index >= _dimension)
+                if (index < 0 || index >= _dimension)
                     throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range");
                 _array[index] = value;
             }

@@ -9,9 +9,11 @@ namespace linear_mathematics
         {
             DoubleVector vector1 = new DoubleVector(1.0, 2, 3);
             DoubleVector vector2 = new DoubleVector(4.0, 5, 6,7);
-            Console.WriteLine(
-                vector1*vector2
-                );
+            DoubleMatrix matrix1 = new DoubleMatrix(4, 2);
+            matrix1.VectorToColumn(0, vector1);
+            matrix1.VectorToColumn(1, vector2);
+            DoubleMatrix matrix2 = new DoubleMatrix(5, 5, matrix1.ToArray());
+            Console.WriteLine((matrix1*(matrix1.Transposed)).ToString());
             Console.ReadKey();
         }
     }

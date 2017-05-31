@@ -88,6 +88,7 @@ namespace linear_mathematics.Algebra_objects
         #endregion
 
         #region Array methods
+
         public override string ToString()
         {
             var result = "";
@@ -144,6 +145,14 @@ namespace linear_mathematics.Algebra_objects
         public double[] ToArray() => _array;
 
         public List<double> ToList() => new List<double>(_array);
+
+        public void ElementsReversion(int index1, int index2)
+        {
+            double temp = _array[index1];
+            _array[index1] = _array[index2];
+            _array[index2] = temp;
+        }
+
         #endregion
 
         #region Linear space and eucledian operations

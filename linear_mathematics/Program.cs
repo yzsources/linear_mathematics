@@ -1,4 +1,5 @@
-﻿using System;
+﻿using linear_mathematics.Algebra_objects;
+using System;
 
 namespace linear_mathematics
 {
@@ -6,6 +7,8 @@ namespace linear_mathematics
     {
         static void Main(string[] args)
         {
+
+            Console.ReadKey();
         }
     }
 }

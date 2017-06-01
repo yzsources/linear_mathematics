@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Fields algebra\Fields\Rational.cs" />
+    <Compile Include="Fields algebra\Problems\IntegerCalculations.cs" />
     <Compile Include="Linear algebra\Enums\SimpleActionType.cs" />
     <Compile Include="Linear algebra\Extra objects\SimpleAction.cs" />
     <Compile Include="Linear algebra\Spaces\Real space\Objects\Matrix.cs" />

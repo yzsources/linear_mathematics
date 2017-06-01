@@ -1,5 +1,6 @@
 ﻿using System;
 using Algebra.Linear_algebra.Spaces.Real_space.Objects;
+using Algebra.Fields_algebra.Problems;
 
 namespace TestConsole
 {
@@ -7,8 +8,7 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var v1 = new Vector(12);
-            Console.WriteLine(v1);
+            Console.WriteLine(IntegerCalculations.BinaryAlgorithm(-120,-42));
             Console.ReadKey();
         }
     }

@@ -207,7 +207,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// <summary>
         /// Returns p-norm or Holder-space norm
         /// </summary>
-        /// <param name="p">Index of Holder-space. (For Eucledian space p=2)</param>
+        /// <param name="p">Index of Holder-space. (For Euclidean space p=2)</param>
         /// <returns></returns>
         public double PNorm(double p)
         {
@@ -238,7 +238,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// <summary>
         /// Norming vector by p-norm
         /// </summary>
-        /// <param name="p">Index of Holder-space. (For Eucledian space p=2)</param>
+        /// <param name="p">Index of Holder-space. (For Euclidean space p=2)</param>
         public void PNorming(double p)
         {
             if (p < 1) throw
@@ -275,7 +275,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// <summary>
         /// Norming vector by eucledian norm
         /// </summary>
-        public void EucledianNorming()
+        public void EuclideanNorming()
         {
             if (!IfZero)
                 for (var i = 0; i < _dimension; i++) _array[i] /= PNorm(2);
@@ -284,7 +284,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// <summary>
         /// Returns normed vector with p-norm
         /// </summary>
-        /// <param name="p">Index of Holder-space. (For Eucledian space p=2)</param>
+        /// <param name="p">Index of Holder-space. (For Euclidean space p=2)</param>
         public Vector PNormed(double p)
         {
             if (p < 1) throw
@@ -306,13 +306,13 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         }
 
         /// <summary>
-        /// Returns norm vector with Eucledian norm
+        /// Returns norm vector with Euclidean norm
         /// </summary>
         /// <returns></returns>
-        public Vector EucledianNormed()
+        public Vector EuclideanNormed()
         {
             var result = new Vector(_array);
-            result.EucledianNorming();
+            result.EuclideanNorming();
             return result;
         }
 

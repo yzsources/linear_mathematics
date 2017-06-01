@@ -8,45 +8,104 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
         /// <summary>
         /// Solving matrix equation with LUP decomposition: AX=B
         /// </summary>
-        /// <param name="leftMatrix">A - squared, not degenetated left matrix</param>
-        /// <param name="rightMatrix">B - right matrix</param>
+        /// <param name="leftSide">A - squared, not degenetated</param>
+        /// <param name="rightSide">B</param>
         /// <returns></returns>
-        public static Matrix LeftLUP(Matrix leftMatrix, Matrix rightMatrix)
+        public static Matrix LeftLUP(Matrix leftSide, Matrix rightSide)
         {
-            if (leftMatrix.ColumnsCount != leftMatrix.LinesCount)
-                throw new ArgumentException(nameof(leftMatrix), "Only for squared matrix");
-            var linesCount = leftMatrix.LinesCount;
-            var lupResult = Decomposition.LUP(leftMatrix);
-            for (var i = 0; i < linesCount; i++)
+            if (leftSide.ColumnsCount != leftSide.LinesCount)
+                throw new ArgumentException(nameof(leftSide), "Only for squared matrix");
+            var leftSideDimension = leftSide.LinesCount;
+            if (leftSideDimension != rightSide.LinesCount)
+                throw new ArgumentException(nameof(rightSide), "Imcompatibility between matrixes dimensions");
+            var lupResult = Decomposition.LUP(leftSide);
+            for (var i = 0; i < leftSideDimension; i++)
                 if (Math.Abs(lupResult.Item2[i, i]) < Constants.DoublePrecision)
-                    throw new ArgumentException(nameof(leftMatrix), "Matrix cannot be degenerated");
-            var _reversedRightMatrix = lupResult.Item3 * rightMatrix;
-            var result = new Matrix(rightMatrix.LinesCount, rightMatrix.ColumnsCount);
-            var resultCurrentColumn = new Vector(rightMatrix.LinesCount);
-            for (var j = 0; j < _reversedRightMatrix.ColumnsCount; j++)
+                    throw new ArgumentException(nameof(leftSide), "Matrix cannot be degenerated");
+            var _reversedRightSide = lupResult.Item3 * rightSide;
+            var result = new Matrix(rightSide.LinesCount, rightSide.ColumnsCount);
+            for (var j = 0; j < _reversedRightSide.ColumnsCount; j++)
             {
-                for (int i = 0; i < linesCount; i++)
+                for (int i = 0; i < leftSideDimension; i++)
                 {
                     var s = 0.0;
                     if (i != 0)
-                        for (var k = 0; k < i; k++) s += lupResult.Item1[i, k] * resultCurrentColumn[k];
-                    resultCurrentColumn[i] = _reversedRightMatrix[i, j] - s;
+                        for (var k = 0; k < i; k++) s += lupResult.Item1[i, k] * result[k,j];
+                    result[i,j]= _reversedRightSide[i, j] - s;
                 }
-                result.VectorToColumn(j, resultCurrentColumn);
             }
-            _reversedRightMatrix = result;
-            for (var j = 0; j < _reversedRightMatrix.ColumnsCount; j++)
+            _reversedRightSide = result;
+            for (var j = 0; j < _reversedRightSide.ColumnsCount; j++)
             {
-                for (var i = linesCount - 1; i >= 0; i--)
+                for (var i = leftSideDimension - 1; i >= 0; i--)
                 {
                     var s = 0.0;
-                    if (i != linesCount - 1)
-                        for (var k = i + 1; k < linesCount; k++) s += lupResult.Item2[i, k] * resultCurrentColumn[k];
-                    resultCurrentColumn[i] = (1 / lupResult.Item2[i, i]) * (_reversedRightMatrix[i, j] - s);
+                    if (i != leftSideDimension - 1)
+                        for (var k = i + 1; k < leftSideDimension; k++) s += lupResult.Item2[i, k] * result[k,j];
+                    result[i,j] = (1 / lupResult.Item2[i, i]) * (_reversedRightSide[i, j] - s);
                 }
-                result.VectorToColumn(j, resultCurrentColumn);
             }
             return result;
+        }
+
+        #endregion
+
+        #region Right matrix equation
+        /// <summary>
+        /// Solving matrix equation with LUP decomposition: XA=B
+        /// </summary>
+        /// <param name="leftSide">A - squared, not degenetated</param>
+        /// <param name="rightSide">B</param>
+        /// <returns></returns>
+        public static Matrix RightLUP(Matrix leftSide, Matrix rightSide)
+        {
+            if (leftSide.ColumnsCount != leftSide.LinesCount)
+                throw new ArgumentException(nameof(leftSide), "Only for squared matrix");
+            var leftSideDimension = leftSide.LinesCount;
+            if (leftSideDimension != rightSide.ColumnsCount)
+                throw new ArgumentException(nameof(rightSide), "Imcompatibility between matrixes dimensions");
+            var lupResult = Decomposition.LUP(leftSide);
+            for (var i = 0; i < leftSideDimension; i++)
+                if (Math.Abs(lupResult.Item2[i, i]) < Constants.DoublePrecision)
+                    throw new ArgumentException(nameof(leftSide), "Matrix cannot be degenerated");
+            var tempRightSide = rightSide;
+            var result = new Matrix(rightSide.LinesCount, rightSide.ColumnsCount);
+            for (var j = 0; j < tempRightSide.ColumnsCount; j++)
+            {
+                for (int i = 0; i < tempRightSide.LinesCount; i++)
+                {
+                    var s = 0.0;
+                    if (j != 0)
+                        for (var k = 0; k < j; k++) s += lupResult.Item2[k, j] * result[i, k];
+                    result[i,j] = (tempRightSide[i, j] - s)/ lupResult.Item2[j, j];
+                }
+            }
+            tempRightSide = result;
+            for (var j = tempRightSide.ColumnsCount-1; j >=0 ; j--)
+            {
+                for (var i = 0; i < tempRightSide.LinesCount; i++)
+                {
+                    var s = 0.0;
+                    if (j != tempRightSide.ColumnsCount - 1)
+                        for (var k = j + 1; k < tempRightSide.ColumnsCount; k++) s += lupResult.Item1[k, j] * result[i, k];
+                    result[i, j] = tempRightSide[i, j] - s;
+                }
+            }
+            return result*lupResult.Item3;
+        }
+        #endregion
+
+        #region Both side matrix equations
+        /// <summary>
+        /// Solving matrix equation with LUP decomposition: AXB=C
+        /// </summary>
+        /// <param name="leftSideLeft">A - squared, not degenetated</param>
+        /// <param name="leftSideRight">B - squared, not degenetated</param>
+        /// <param name="rightSide">C</param>
+        /// <returns></returns>
+        public static Matrix LUP(Matrix leftSideLeft, Matrix leftSideRight, Matrix rightSide)
+        {
+            return RightLUP(leftSideRight, LeftLUP(leftSideLeft, rightSide));
         }
         #endregion
 

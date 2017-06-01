@@ -48,6 +48,7 @@
     <Compile Include="Algebra objects\Real space\Objects\Vector.cs" />
     <Compile Include="Algebra objects\Real space\Problems\EigenValues.cs" />
     <Compile Include="Algebra objects\Real space\Problems\LinearSystem.cs" />
+    <Compile Include="Algebra objects\Real space\Problems\MatrixInversion.cs" />
     <Compile Include="Algebra objects\Real space\Problems\SingularValues.cs" />
     <Compile Include="Algebra objects\Enums\SimpleActionType.cs" />
     <Compile Include="Constants.cs" />

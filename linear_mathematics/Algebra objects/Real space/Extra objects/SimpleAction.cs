@@ -32,11 +32,19 @@ namespace linear_mathematics.Algebra_objects.Real_space.Extra_objects
             _coefficient = 0;
         }
 
+        public SimpleAction(SimpleActionType type, int firstVector, double coefficient)
+        {
+            _type = type;
+            _firstVector = firstVector;
+            _secondVector = -1;
+            _coefficient = coefficient;
+        }
+
         public SimpleAction(SimpleActionType type, int firstVector, int secondVector, double coefficient)
         {
             _type = type;
             _firstVector = firstVector;
-            _secondVector = _secondVector;
+            _secondVector = secondVector;
             _coefficient = coefficient;
         }
     }

@@ -3,13 +3,13 @@
     public enum SimpleActionType
     {
         None,
-        LineReversion,
+        LinesReversion,
         LineСoef,
-        LineSum,
-        LineSumCoef,
-        ColumnReversion,
+        LinesSum,
+        LinesSumCoef,
+        ColumnsReversion,
         ColumnCoef,
-        ColumnSum,
-        ColumnSumCoef
+        ColumnsSum,
+        ColumnsSumCoef
     }
 }

@@ -8,18 +8,29 @@ namespace linear_mathematics
     {
         static void Main(string[] args)
         {
-            var v1 = new Vector(1.0, 2.0, 3.0);
-            var v2 = new Vector(1.0, 2.0, 3.0);
-            var v3 = new Vector(1.0, 2.0, 3.0);
-            var v4 = new Vector(1.0, 2.0, 3.0);
-            var matrix = new Matrix(4, 3);
-          //  matrix.VectorToLine(0, v1);
-        //    matrix.VectorToLine(1, v2);
-         //   matrix.VectorToLine(2, v3);
-        //    matrix.VectorToLine(3, v4);
-            Console.WriteLine(matrix);
+            var b1 = new Vector(1.0, 2.0, 3.0);
+            var b2 = new Vector(5.0, 6.0, 3.0);
+            var a1 = new Vector(3.0, 4.0, 2.0);
+            var a2 = new Vector(2.0, -1.0, -3.0);
+            var a3 = new Vector(1.0, 5.0, 1.0);
+            var A = new Matrix(3, 3);
+            A.VectorToLine(0, a1);
+            A.VectorToLine(1, a2);
+            A.VectorToLine(2, a3);
+         //   A.VectorToLine(3, b2);
+            var B = new Matrix(3, 2);
+            B.VectorToColumn(0, b1);
+            B.VectorToColumn(1, b2);
+            var I = new Matrix(3, 3);
+            I[0, 0] = I[1, 1] = I[2, 2] = 1.0;
+       //     Console.WriteLine(A);
+            Console.WriteLine(MatrixInversion.ByMatrixEquation(A,LinearSystem.LeftLUP));
+         //   Console.WriteLine(Decomposition.ColumnGaussianElimination(A,true).Item2);
             Console.WriteLine();
-            Console.WriteLine(matrix.Rank());
+        //    Console.WriteLine(Decomposition.ColumnGaussianElimination(Decomposition.RowGaussianElimination(A).Item2, false).Item2);
+           Console.WriteLine(MatrixInversion.GaussianMethod(A));
+            Console.WriteLine();
+        //    Console.WriteLine(Decomposition.GaussianElimination(A, false, true).Item2);
             Console.ReadKey();
         }
     }

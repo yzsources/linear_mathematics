@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "linear_mathematics", "linear_mathematics\linear_mathematics.csproj", "{65602603-A215-4E93-9B7E-E56A03F264DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algebra", "Algebra\Algebra.csproj", "{8FF033B3-9128-4EE6-ACE1-620E1FD14FEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{2FA7266B-D90A-4BBA-A1B6-C73FF6ABFA49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{65602603-A215-4E93-9B7E-E56A03F264DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65602603-A215-4E93-9B7E-E56A03F264DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65602603-A215-4E93-9B7E-E56A03F264DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65602603-A215-4E93-9B7E-E56A03F264DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FF033B3-9128-4EE6-ACE1-620E1FD14FEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FF033B3-9128-4EE6-ACE1-620E1FD14FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FF033B3-9128-4EE6-ACE1-620E1FD14FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FF033B3-9128-4EE6-ACE1-620E1FD14FEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FA7266B-D90A-4BBA-A1B6-C73FF6ABFA49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FA7266B-D90A-4BBA-A1B6-C73FF6ABFA49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FA7266B-D90A-4BBA-A1B6-C73FF6ABFA49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FA7266B-D90A-4BBA-A1B6-C73FF6ABFA49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

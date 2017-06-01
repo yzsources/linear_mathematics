@@ -1,12 +1,17 @@
-﻿using System;
+﻿using Algebra.Linear_algebra.Spaces.Real_space.Objects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace linear_mathematics.Algebra_objects.Real_space.Problems
+namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
 {
-    public static class MatrixInversion
+    public class MatrixInversion
     {
-        public static Matrix ByMatrixEquation(Matrix matrix, Func<Matrix,Matrix,Matrix> method)
+        public static Matrix ByMatrixEquation(Matrix matrix, Func<Matrix, Matrix, Matrix> method)
         {
-            if(matrix.LinesCount!=matrix.ColumnsCount)
+            if (matrix.LinesCount != matrix.ColumnsCount)
                 throw new ArgumentException(nameof(matrix), "Only for squared matrix");
             var dimension = matrix.LinesCount;
             var identityMatrix = new Matrix(dimension, dimension);
@@ -28,7 +33,7 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
                 throw new ArgumentException("Matrix cannot be degenerated");
             var result = new Matrix(dimension, dimension);
             for (var i = 0; i < dimension; i++) result[i, i] = 1.0;
-            foreach(var simpleAction in temp.Item1)
+            foreach (var simpleAction in temp.Item1)
             {
                 switch (simpleAction.Type)
                 {
@@ -41,7 +46,7 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
                         break;
                     case Enums.SimpleActionType.LinesSumCoef:
                         for (var j = 0; j < result.ColumnsCount; j++)
-                            result[simpleAction.FirstVector, j] += 
+                            result[simpleAction.FirstVector, j] +=
                                 simpleAction.Coefficient * result[simpleAction.SecondVector, j];
                         break;
                 }

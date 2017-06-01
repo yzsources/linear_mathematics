@@ -1,6 +1,6 @@
-﻿using linear_mathematics.Algebra_objects.Enums;
+﻿using Algebra.Linear_algebra.Enums;
 
-namespace linear_mathematics.Algebra_objects.Real_space.Extra_objects
+namespace Algebra.Linear_algebra.Extra_objects
 {
     public class SimpleAction
     {

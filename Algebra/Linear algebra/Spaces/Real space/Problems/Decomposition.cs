@@ -1,8 +1,12 @@
-﻿using linear_mathematics.Algebra_objects.Real_space.Extra_objects;
+﻿using Algebra.Linear_algebra.Extra_objects;
+using Algebra.Linear_algebra.Spaces.Real_space.Objects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace linear_mathematics.Algebra_objects.Real_space.Problems
+namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
 {
     public static class Decomposition
     {
@@ -67,7 +71,7 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
             {
                 var currentLineIndex = (upper) ? i : linesCount - 1 - i;
                 var currentColumnIndex = (upper) ? i : columnsCount - 1 - i;
-                var mainElementIndex = (upper)?i:linesCount-1-i;
+                var mainElementIndex = (upper) ? i : linesCount - 1 - i;
                 for (var linesStep = i; linesStep < result.LinesCount; linesStep++)
                 {
                     var linesIndex = (upper) ? linesStep : linesCount - linesStep - 1;
@@ -92,9 +96,9 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
                 {
                     var columnsIndex = (upper) ? columnsStep : columnsCount - columnsStep - 1;
                     result[currentLineIndex, columnsIndex] *= coefficient1;
-                }  
+                }
                 simpleActions.Add(new SimpleAction(Enums.SimpleActionType.LineСoef, currentLineIndex, coefficient1));
-                for (var linesStep = i + 1; linesStep< result.LinesCount; linesStep++)
+                for (var linesStep = i + 1; linesStep < result.LinesCount; linesStep++)
                 {
                     var linesIndex = (upper) ? linesStep : linesCount - linesStep - 1;
                     var coefficient2 = -result[linesIndex, currentColumnIndex];
@@ -110,7 +114,5 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
             }
             return new Tuple<List<SimpleAction>, Matrix>(simpleActions, result);
         }
-
-      
     }
 }

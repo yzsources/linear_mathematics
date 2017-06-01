@@ -1,4 +1,4 @@
-﻿namespace linear_mathematics
+﻿namespace Algebra
 {
     public static class Constants
     {

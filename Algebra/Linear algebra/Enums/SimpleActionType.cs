@@ -1,6 +1,6 @@
-﻿namespace linear_mathematics.Algebra_objects.Enums
+﻿namespace Algebra.Linear_algebra.Enums
 {
-    public enum SimpleActionType
+   public enum SimpleActionType
     {
         None,
         LinesReversion,

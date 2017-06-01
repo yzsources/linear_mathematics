@@ -1,6 +1,11 @@
-﻿using System;
+﻿using Algebra.Linear_algebra.Spaces.Real_space.Objects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace linear_mathematics.Algebra_objects.Real_space.Problems
+namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
 {
     public static class LinearSystem
     {
@@ -30,8 +35,8 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
                 {
                     var s = 0.0;
                     if (i != 0)
-                        for (var k = 0; k < i; k++) s += lupResult.Item1[i, k] * result[k,j];
-                    result[i,j]= _reversedRightSide[i, j] - s;
+                        for (var k = 0; k < i; k++) s += lupResult.Item1[i, k] * result[k, j];
+                    result[i, j] = _reversedRightSide[i, j] - s;
                 }
             }
             _reversedRightSide = result;
@@ -41,8 +46,8 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
                 {
                     var s = 0.0;
                     if (i != leftSideDimension - 1)
-                        for (var k = i + 1; k < leftSideDimension; k++) s += lupResult.Item2[i, k] * result[k,j];
-                    result[i,j] = (1 / lupResult.Item2[i, i]) * (_reversedRightSide[i, j] - s);
+                        for (var k = i + 1; k < leftSideDimension; k++) s += lupResult.Item2[i, k] * result[k, j];
+                    result[i, j] = (1 / lupResult.Item2[i, i]) * (_reversedRightSide[i, j] - s);
                 }
             }
             return result;
@@ -77,11 +82,11 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
                     var s = 0.0;
                     if (j != 0)
                         for (var k = 0; k < j; k++) s += lupResult.Item2[k, j] * result[i, k];
-                    result[i,j] = (tempRightSide[i, j] - s)/ lupResult.Item2[j, j];
+                    result[i, j] = (tempRightSide[i, j] - s) / lupResult.Item2[j, j];
                 }
             }
             tempRightSide = result;
-            for (var j = tempRightSide.ColumnsCount-1; j >=0 ; j--)
+            for (var j = tempRightSide.ColumnsCount - 1; j >= 0; j--)
             {
                 for (var i = 0; i < tempRightSide.LinesCount; i++)
                 {
@@ -91,7 +96,7 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
                     result[i, j] = tempRightSide[i, j] - s;
                 }
             }
-            return result*lupResult.Item3;
+            return result * lupResult.Item3;
         }
         #endregion
 
@@ -110,4 +115,5 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
         #endregion
 
     }
+
 }

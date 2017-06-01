@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace linear_mathematics.Algebra_objects
+namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
 {
-
     public class Vector
     {
-
         #region private
 
         /// <summary>
@@ -210,12 +211,12 @@ namespace linear_mathematics.Algebra_objects
         /// <returns></returns>
         public double PNorm(double p)
         {
-            if (p < 1) throw 
+            if (p < 1) throw
                     new ArgumentOutOfRangeException(nameof(p), "Argument cannot be less than 1");
             var result = 0.0;
-            foreach(var coordinate in _array)
+            foreach (var coordinate in _array)
             {
-                result += Math.Pow(Math.Abs(coordinate),p);
+                result += Math.Pow(Math.Abs(coordinate), p);
             }
             return Math.Pow(result, 1 / p);
         }
@@ -343,6 +344,5 @@ namespace linear_mathematics.Algebra_objects
         }
 
         #endregion
-
     }
 }

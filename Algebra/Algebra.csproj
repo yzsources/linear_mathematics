@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{65602603-A215-4E93-9B7E-E56A03F264DD}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>linear_mathematics</RootNamespace>
-    <AssemblyName>linear_mathematics</AssemblyName>
+    <ProjectGuid>{8FF033B3-9128-4EE6-ACE1-620E1FD14FEF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Algebra</RootNamespace>
+    <AssemblyName>Algebra</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,26 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algebra objects\Real space\Extra objects\SimpleAction.cs" />
-    <Compile Include="Algebra objects\Real space\Problems\Decomposition.cs" />
-    <Compile Include="Algebra objects\Real space\Objects\Matrix.cs" />
-    <Compile Include="Algebra objects\Real space\Objects\Vector.cs" />
-    <Compile Include="Algebra objects\Real space\Problems\EigenValues.cs" />
-    <Compile Include="Algebra objects\Real space\Problems\LinearSystem.cs" />
-    <Compile Include="Algebra objects\Real space\Problems\MatrixInversion.cs" />
-    <Compile Include="Algebra objects\Real space\Problems\SingularValues.cs" />
-    <Compile Include="Algebra objects\Enums\SimpleActionType.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Linear algebra\Enums\SimpleActionType.cs" />
+    <Compile Include="Linear algebra\Extra objects\SimpleAction.cs" />
+    <Compile Include="Linear algebra\Spaces\Real space\Objects\Matrix.cs" />
+    <Compile Include="Linear algebra\Spaces\Real space\Objects\Vector.cs" />
+    <Compile Include="Linear algebra\Spaces\Real space\Problems\Decomposition.cs" />
+    <Compile Include="Linear algebra\Spaces\Real space\Problems\EigenValues.cs" />
+    <Compile Include="Linear algebra\Spaces\Real space\Problems\LinearSystem.cs" />
+    <Compile Include="Linear algebra\Spaces\Real space\Problems\MatrixInversion.cs" />
+    <Compile Include="Linear algebra\Spaces\Real space\Problems\SingularValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Algebra objects\Complex space\" />
-    <Folder Include="Algebra objects\Rational space\" />
-    <Folder Include="Test objects\" />
+    <Folder Include="Linear algebra\Spaces\Complex space\" />
+    <Folder Include="Linear algebra\Spaces\Rational space\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

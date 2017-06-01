@@ -1,7 +1,11 @@
-﻿using linear_mathematics.Algebra_objects.Real_space.Problems;
+﻿using Algebra.Linear_algebra.Spaces.Real_space.Problems;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace linear_mathematics.Algebra_objects
+namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
 {
     public class Matrix
     {
@@ -35,7 +39,7 @@ namespace linear_mathematics.Algebra_objects
         public Matrix(int linesCount, int columnsCount)
         {
             if (linesCount < 1) throw
-                    new ArgumentOutOfRangeException(nameof(linesCount),"Count of lines must be positive");
+                    new ArgumentOutOfRangeException(nameof(linesCount), "Count of lines must be positive");
             if (columnsCount < 1) throw
                      new ArgumentOutOfRangeException(nameof(columnsCount), "Count of columns must be positive");
             _linesCount = linesCount;
@@ -92,7 +96,7 @@ namespace linear_mathematics.Algebra_objects
             var result = "";
             for (var i = 0; i < _linesCount; i++)
                 for (var j = 0; j < _columnsCount; j++)
-                    result += _array[i, j].ToString() + ((j<_columnsCount-1)?" ":((i<_linesCount-1)? "\r\n":""));
+                    result += _array[i, j].ToString() + ((j < _columnsCount - 1) ? " " : ((i < _linesCount - 1) ? "\r\n" : ""));
             return result;
         }
 
@@ -127,7 +131,7 @@ namespace linear_mathematics.Algebra_objects
             get
             {
                 var result = new Vector[_linesCount];
-                for(var i = 0; i < _linesCount; i++)
+                for (var i = 0; i < _linesCount; i++)
                 {
                     result[i] = new Vector(_columnsCount);
                     for (var j = 0; j < _columnsCount; j++) result[i][j] = _array[i, j];
@@ -141,7 +145,7 @@ namespace linear_mathematics.Algebra_objects
             get
             {
                 var result = new Vector[_columnsCount];
-                for(var j = 0; j < _columnsCount; j++)
+                for (var j = 0; j < _columnsCount; j++)
                 {
                     result[j] = new Vector(_linesCount);
                     for (var i = 0; i < _linesCount; i++) result[j][i] = _array[i, j];
@@ -188,7 +192,7 @@ namespace linear_mathematics.Algebra_objects
             get
             {
                 var result = Lines[0].Min;
-                foreach(var line in Lines)
+                foreach (var line in Lines)
                 {
                     result = (result < line.Min) ? line.Min : result;
                 }
@@ -205,7 +209,7 @@ namespace linear_mathematics.Algebra_objects
             get
             {
                 var result = Columns[0].Max;
-                foreach(var column in Columns)
+                foreach (var column in Columns)
                 {
                     result = (result < column.Max) ? column.Max : result;
                 }
@@ -217,9 +221,9 @@ namespace linear_mathematics.Algebra_objects
 
         #region Linear space operations
 
-        public static Matrix operator + (Matrix matrix1, Matrix matrix2)
+        public static Matrix operator +(Matrix matrix1, Matrix matrix2)
         {
-            var resultColumnsCount = (matrix1.ColumnsCount >= matrix2.ColumnsCount) ? 
+            var resultColumnsCount = (matrix1.ColumnsCount >= matrix2.ColumnsCount) ?
                 matrix1.ColumnsCount : matrix2.ColumnsCount;
             var resultLinesCount = (matrix1.LinesCount >= matrix2.LinesCount) ?
                 matrix1.LinesCount : matrix2.LinesCount;
@@ -231,7 +235,7 @@ namespace linear_mathematics.Algebra_objects
             return result;
         }
 
-        public static Matrix operator - (Matrix matrix1, Matrix matrix2)
+        public static Matrix operator -(Matrix matrix1, Matrix matrix2)
         {
             var resultColumnsCount = (matrix1.ColumnsCount >= matrix2.ColumnsCount) ?
                 matrix1.ColumnsCount : matrix2.ColumnsCount;
@@ -245,7 +249,7 @@ namespace linear_mathematics.Algebra_objects
             return result;
         }
 
-        public static Matrix operator * (double coefficient, Matrix matrix)
+        public static Matrix operator *(double coefficient, Matrix matrix)
         {
             var result = new Matrix(matrix._array);
             for (var i = 0; i < result._linesCount; i++)
@@ -253,7 +257,7 @@ namespace linear_mathematics.Algebra_objects
             return result;
         }
 
-        public static Matrix operator * (Matrix matrix1, Matrix matrix2)
+        public static Matrix operator *(Matrix matrix1, Matrix matrix2)
         {
             if (matrix1.ColumnsCount != matrix2.LinesCount) throw
                        new ArgumentException("Columns count of 1st matrix must be equal to lines count of 2nd matrix");
@@ -266,7 +270,7 @@ namespace linear_mathematics.Algebra_objects
             return result;
         }
 
-        public static Vector operator * (Matrix matrix, Vector vector)
+        public static Vector operator *(Matrix matrix, Vector vector)
         {
             if (matrix.ColumnsCount != vector.Dimension) throw
                      new ArgumentException("Columns count of matrix must be equal to elements count of vector");
@@ -295,11 +299,12 @@ namespace linear_mathematics.Algebra_objects
             return result;
         }
 
-        public Matrix LeftSqr()  => this * Transposed(); 
+        public Matrix LeftSqr() => this * Transposed();
 
-        public Matrix RightSqr() => Transposed() * this; 
+        public Matrix RightSqr() => Transposed() * this;
 
-        public int Rank() {
+        public int Rank()
+        {
             var temp = Decomposition.GaussianElimination(this).Item2;
             int i = 0;
             for (i = 0; i < temp.LinesCount; i++)
@@ -319,7 +324,7 @@ namespace linear_mathematics.Algebra_objects
         public double MNorm()
         {
             var result = 0.0;
-            foreach(var column in Columns)
+            foreach (var column in Columns)
             {
                 result = (result < column.PNorm(1)) ? column.PNorm(1) : result;
             }
@@ -333,7 +338,7 @@ namespace linear_mathematics.Algebra_objects
         public double LNorm()
         {
             var result = 0.0;
-            foreach(var line in Lines)
+            foreach (var line in Lines)
             {
                 result = (result < line.PNorm(1)) ? line.PNorm(1) : result;
             }
@@ -349,13 +354,13 @@ namespace linear_mathematics.Algebra_objects
             if (p < 1) throw
                    new ArgumentOutOfRangeException(nameof(p), "Argument cannot be less than 1");
             var result = 0.0;
-            for(var i=0;i<_linesCount;i++)
-                for(var j=0;j<_columnsCount;j++) result+= Math.Pow(Math.Abs(_array[i,j]), p);
+            for (var i = 0; i < _linesCount; i++)
+                for (var j = 0; j < _columnsCount; j++) result += Math.Pow(Math.Abs(_array[i, j]), p);
             return Math.Pow(result, 1 / p);
         }
 
         // TODO: Add spectral norm (Operator p-norm, where p=2)
-        
+
         /// <summary>
         /// Special L_p,q norm
         /// </summary>
@@ -369,9 +374,9 @@ namespace linear_mathematics.Algebra_objects
             if (q < 1) throw
                   new ArgumentOutOfRangeException(nameof(q), "Argument cannot be less than 1");
             var result = 0.0;
-            foreach(var column in Columns)
+            foreach (var column in Columns)
             {
-                result += Math.Pow(Math.Abs(column.PNorm(p)),q);
+                result += Math.Pow(Math.Abs(column.PNorm(p)), q);
             }
             return Math.Pow(result, 1 / q);
         }
@@ -391,7 +396,7 @@ namespace linear_mathematics.Algebra_objects
         /// <summary>
         /// Frobenius norm
         /// </summary>
-        public double FNorm { get => PNorm(2); } 
+        public double FNorm { get => PNorm(2); }
 
         /// <summary>
         /// Maximum norm as default
@@ -425,12 +430,12 @@ namespace linear_mathematics.Algebra_objects
             return _linesCount.GetHashCode() ^ _columnsCount.GetHashCode() ^ _array.GetHashCode();
         }
 
-        public static bool operator == (Matrix matrix1, Matrix matrix2)
+        public static bool operator ==(Matrix matrix1, Matrix matrix2)
         {
             return matrix1.Equals(matrix2);
         }
 
-        public static bool operator != (Matrix matrix1, Matrix matrix2)
+        public static bool operator !=(Matrix matrix1, Matrix matrix2)
         {
             return !matrix1.Equals(matrix2);
         }

@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Algebra objects\Complex space\" />
+    <Folder Include="Algebra objects\Rational space\" />
     <Folder Include="Test objects\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

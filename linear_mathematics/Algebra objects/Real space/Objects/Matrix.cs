@@ -1,4 +1,5 @@
-﻿using System;
+﻿using linear_mathematics.Algebra_objects.Real_space.Problems;
+using System;
 
 namespace linear_mathematics.Algebra_objects
 {
@@ -276,33 +277,36 @@ namespace linear_mathematics.Algebra_objects
             return result;
         }
 
-        public Matrix Transposed
+        public Matrix Transposed()
         {
-            get
+            var result = new Matrix(_columnsCount, _linesCount);
+            for (var i = 0; i < _linesCount; i++)
             {
-                var result = new Matrix(_columnsCount, _linesCount);
-                for(var i = 0; i < _linesCount; i++)
-                {
-                    result.VectorToColumn(i,Lines[i]);
-                }
-                return result;
+                result.VectorToColumn(i, Lines[i]);
             }
+            return result;
         }
 
-        public double Trace
+        public double Trace()
         {
-            get
-            {
-                var mainDiagonalLength = (_linesCount > _columnsCount) ? _columnsCount : _linesCount;
-                var result = 0.0;
-                for (int i = 0; i < mainDiagonalLength; i++) result += _array[i, i];
-                return result;
-            }
+            var mainDiagonalLength = (_linesCount > _columnsCount) ? _columnsCount : _linesCount;
+            var result = 0.0;
+            for (int i = 0; i < mainDiagonalLength; i++) result += _array[i, i];
+            return result;
         }
 
-        public Matrix LeftSqr { get => this * Transposed; }
+        public Matrix LeftSqr()  => this * Transposed(); 
 
-        public Matrix RightSqr { get => Transposed * this; }
+        public Matrix RightSqr() => Transposed() * this; 
+
+        public int Rank() {
+            var temp = Decomposition.GaussianElimination(this).Item2;
+            int i = 0;
+            for (i = 0; i < temp.LinesCount; i++)
+                if ((temp.Lines[i]).Norm < Constants.DoublePrecision)
+                    break;
+            return i;
+        }
 
         #endregion
 

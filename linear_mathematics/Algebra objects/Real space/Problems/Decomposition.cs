@@ -68,25 +68,16 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
                 var currentLineIndex = (upper) ? i : linesCount - 1 - i;
                 var currentColumnIndex = (upper) ? i : columnsCount - 1 - i;
                 var mainElementIndex = (upper)?i:linesCount-1-i;
-                if (maxElementFinding)
+                for (var linesStep = i; linesStep < result.LinesCount; linesStep++)
                 {
-                    for(var linesStep = i; linesStep < result.LinesCount; linesStep++)
-                    {
-                        var linesIndex = (upper) ? linesStep : linesCount - linesStep - 1;
-                        mainElementIndex = (Math.Abs(result[linesIndex, currentColumnIndex]) > 
+                    var linesIndex = (upper) ? linesStep : linesCount - linesStep - 1;
+                    if (maxElementFinding) mainElementIndex = (Math.Abs(result[linesIndex, currentColumnIndex]) >
                             Math.Abs(result[mainElementIndex, currentColumnIndex])) ? linesIndex : mainElementIndex;
-                    }
-                }
-                else
-                {
-                    for (var linesStep = i; linesStep < result.LinesCount; linesStep++)
+                    else
+                    if (Math.Abs(result[linesIndex, currentColumnIndex]) > Constants.DoublePrecision)
                     {
-                        var linesIndex = (upper) ? linesStep : linesCount - linesStep - 1;
-                        if (Math.Abs(result[linesIndex, currentColumnIndex]) > Constants.DoublePrecision)
-                        {
-                            mainElementIndex = linesIndex;
-                            break;
-                        }
+                        mainElementIndex = linesIndex;
+                        break;
                     }
                 }
                 if (Math.Abs(result[mainElementIndex, currentColumnIndex]) < Constants.DoublePrecision)

@@ -10,8 +10,8 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
         /// LUP decomposition, where PA=LU
         /// </summary>
         /// <param name="matrix">Squared matrix</param>
-        /// <returns>L - lower triangular with 1, U - upper triangular, P - transposition matrix</returns>
-        public static Tuple<Matrix,Matrix,Matrix> LUP(Matrix matrix)
+        /// <returns>L - lower triangular with 1, U - upper triangular, P - transposition matrix, reversions count</returns>
+        public static Tuple<Matrix,Matrix,Matrix,int> LUP(Matrix matrix)
         {
             if (matrix.LinesCount != matrix.ColumnsCount) throw
                        new ArgumentException(nameof(matrix), "Only for squared matrix");
@@ -19,9 +19,10 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
             var U = new Matrix(matrix.ToArray());
             var L = new Matrix(dimension, dimension);
             var P = new Matrix(dimension, dimension);
+            var revesionsCount = 0;
             for (var i = 0; i < dimension; i++) L[i, i] = P[i, i] = 1;
             var maxElementIndex = 0;
-            for(var i = 0; i < dimension; i++)
+            for(var i = 0; i < dimension-1; i++)
             {
                 maxElementIndex = i;
                 for (var j = i; j < dimension; j++)
@@ -32,6 +33,7 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
                 {
                     U.LinesReversion(i, maxElementIndex);
                     P.LinesReversion(i, maxElementIndex);
+                    revesionsCount++;
                 }
                 for(var j = i + 1; j < dimension; j++)
                 {
@@ -46,7 +48,7 @@ namespace linear_mathematics.Algebra_objects.Real_space.Problems
                     L[i, j] = U[i, j];
                     U[i, j] = 0;
                 }
-            return new Tuple<Matrix, Matrix, Matrix>(L, U, P);
+            return new Tuple<Matrix, Matrix, Matrix,int>(L, U, P,revesionsCount);
         }
 
         /// <summary>

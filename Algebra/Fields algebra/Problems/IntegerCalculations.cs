@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Algebra.Fields_algebra.Problems
 {
@@ -116,7 +117,6 @@ namespace Algebra.Fields_algebra.Problems
         }
         #endregion
 
-
         /// <summary>
         /// Greatest common divisor by Euclidean algorithm
         /// </summary>
@@ -138,5 +138,46 @@ namespace Algebra.Fields_algebra.Problems
                          new ArgumentException("Elements cannot be equal to zero");
             return Math.Abs(element1 * element2) / gcdAlgorithm(element1, element2);
         }
-    }
+
+        public static UInt64 Pow(int number, int exponent, Func<int, int, UInt64> exponentiationAlgorithm)
+            => exponentiationAlgorithm(number, exponent);
+        public static List<bool> ToBinary(int number)
+        {
+            var result = new List<bool>();
+            var tempNumber = number;
+            do
+            {
+                result.Add(tempNumber % 2 == 1);
+                tempNumber >>= 1;
+            } while (tempNumber!=0);
+            return result;
+        }
+
+        #region Power algorythms
+        public static UInt64 FactorialAlgorithm(int number, int exponent)
+        {
+            if (exponent < 0) throw 
+                    new ArgumentOutOfRangeException(nameof(exponent),"Exponent must not be negative");
+            var result =(UInt64) 1;
+            for (var i = 0; i < exponent; i++) result *=(UInt64)number;
+            return result;
+        }
+
+        public static UInt64 BySquaringAlgorithm(int number, int exponent)
+        {
+            if (exponent< 0) throw 
+                    new ArgumentOutOfRangeException(nameof(exponent),"Exponent must not be negative");
+            var binaryDecomposition = ToBinary(exponent);
+            binaryDecomposition.Reverse();
+            var cyphersCount = binaryDecomposition.Count;
+            var result = (UInt64)number;
+            for (var i = 2; i<=cyphersCount; i++)
+            {
+                result *= result;
+               if (binaryDecomposition[i-1]) result *=(UInt64) number;
+            }
+            return result;
+        }
+        #endregion
+}
 }

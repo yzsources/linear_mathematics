@@ -1,6 +1,7 @@
 ﻿using System;
-using Algebra.Linear_algebra.Spaces.Real_space.Objects;
+using Algebra.Fields_algebra.Fields;
 using Algebra.Fields_algebra.Problems;
+using Algebra.Linear_algebra.Spaces.Real_space.Objects;
 
 namespace TestConsole
 {
@@ -8,7 +9,10 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(IntegerCalculations.BinaryAlgorithm(-120,-42));
+            var q = (Rational)1 / 2;
+            Console.WriteLine(IntegerCalculations.FactorialAlgorithm(0,0));
+     
+            Console.WriteLine("Done");
             Console.ReadKey();
         }
     }

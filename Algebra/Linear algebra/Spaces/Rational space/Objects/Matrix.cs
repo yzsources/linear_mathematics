@@ -1,11 +1,11 @@
-﻿using Algebra.Linear_algebra.Spaces.Real_space.Problems;
+﻿using Algebra.Fields_algebra.Fields;
+using Algebra.Linear_algebra.Spaces.Rational_space.Problems;
 using System;
 
-namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
+namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
 {
     public class Matrix
     {
-
         #region private
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// <summary>
         /// Array of matrix values
         /// </summary>
-        private double[,] _array;
+        private Rational[,] _array;
 
         #endregion
 
@@ -40,9 +40,9 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
                      new ArgumentOutOfRangeException(nameof(columnsCount), "Count of columns must be positive");
             _linesCount = linesCount;
             _columnsCount = columnsCount;
-            _array = new double[_linesCount, _columnsCount];
+            _array = new Rational[_linesCount, _columnsCount];
             for (var i = 0; i < _linesCount; i++)
-                for (var j = 0; j < _columnsCount; j++) _array[i, j] = 0;
+                for (var j = 0; j < _columnsCount; j++) _array[i, j] = (Rational)0;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// <param name="linesCount">Number of lines</param>
         /// <param name="columnsCount">Number of columns</param>
         /// <param name="preassignedCoordinates">Array of preassigned elements</param>
-        public Matrix(int linesCount, int columnsCount, double[,] preassignedCoordinates)
+        public Matrix(int linesCount, int columnsCount, Rational[,] preassignedCoordinates)
         {
             if (linesCount < 1) throw
                     new ArgumentOutOfRangeException(nameof(linesCount), "Count of lines must be positive");
@@ -61,24 +61,24 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
                        new ArgumentNullException(nameof(preassignedCoordinates), "Array cannot be NULL");
             _linesCount = linesCount;
             _columnsCount = columnsCount;
-            _array = new double[_linesCount, _columnsCount];
+            _array = new Rational[_linesCount, _columnsCount];
             for (var i = 0; i < _linesCount; i++)
                 for (var j = 0; j < _columnsCount; j++) _array[i, j] =
                                (i < preassignedCoordinates.GetLength(0) && j < preassignedCoordinates.GetLength(1)) ?
-                               preassignedCoordinates[i, j] : 0;
+                               preassignedCoordinates[i, j] : (Rational)0;
         }
 
         /// <summary>
         /// Constructor with preassigned elements
         /// </summary>
         /// <param name="preassignedCoordinates">Array of preassigned elements</param>
-        public Matrix(double[,] preassignedCoordinates)
+        public Matrix(Rational[,] preassignedCoordinates)
         {
             if (preassignedCoordinates == null) throw
                        new ArgumentNullException(nameof(preassignedCoordinates), "Array cannot be NULL");
             _linesCount = preassignedCoordinates.GetLength(0);
             _columnsCount = preassignedCoordinates.GetLength(1);
-            _array = new double[_linesCount, _columnsCount];
+            _array = new Rational[_linesCount, _columnsCount];
             for (var i = 0; i < _linesCount; i++)
                 for (var j = 0; j < _columnsCount; j++) _array[i, j] = preassignedCoordinates[i, j];
         }
@@ -92,7 +92,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             var result = "";
             for (var i = 0; i < _linesCount; i++)
                 for (var j = 0; j < _columnsCount; j++)
-                    result += _array[i, j].ToString() + ((j < _columnsCount - 1) ? " " : ((i < _linesCount - 1) ? "\r\n" : ""));
+                    result += _array[i, j].ToString() + ((j < _columnsCount - 1) ? "   " : ((i < _linesCount - 1) ? "\r\n" : ""));
             return result;
         }
 
@@ -100,7 +100,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
 
         public int ColumnsCount { get => _columnsCount; }
 
-        public double this[int lineIndex, int columnIndex]
+        public Rational this[int lineIndex, int columnIndex]
         {
             get
             {
@@ -120,7 +120,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             }
         }
 
-        public double[,] ToArray() => _array;
+        public Rational[,] ToArray() => _array;
 
         public Vector[] Lines
         {
@@ -155,7 +155,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             if (lineIndex < 0 || lineIndex >= _linesCount) throw
                     new ArgumentOutOfRangeException(nameof(lineIndex), "Index is out of range");
             for (var j = 0; j < _columnsCount; j++)
-                _array[lineIndex, j] = (j < vector.Dimension) ? vector[j] : 0;
+                _array[lineIndex, j] = (j < vector.Dimension) ? vector[j] : (Rational)0;
         }
 
         public void VectorToColumn(int columnIndex, Vector vector)
@@ -163,7 +163,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             if (columnIndex < 0 || columnIndex >= _columnsCount) throw
                     new ArgumentOutOfRangeException(nameof(columnIndex), "Index is out of range");
             for (var i = 0; i < _linesCount; i++)
-                _array[i, columnIndex] = (i < vector.Dimension) ? vector[i] : 0;
+                _array[i, columnIndex] = (i < vector.Dimension) ? vector[i] : (Rational)0;
         }
 
         public void LinesReversion(int lineIndex1, int lineIndex2)
@@ -183,7 +183,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// <summary>
         /// Returns maximum of lines minimums
         /// </summary>
-        public double MaxMin
+        public Rational MaxMin
         {
             get
             {
@@ -200,7 +200,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// <summary>
         /// Returns minimum of columns maximums
         /// </summary>
-        public double MinMax
+        public Rational MinMax
         {
             get
             {
@@ -226,8 +226,9 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             var result = new Matrix(resultLinesCount, resultColumnsCount);
             for (var i = 0; i < resultLinesCount; i++)
                 for (var j = 0; j < resultColumnsCount; j++)
-                    result[i, j] = ((i < matrix1.LinesCount && j < matrix1.ColumnsCount) ? matrix1[i, j] : 0) +
-                        ((i < matrix2.LinesCount && j < matrix2.ColumnsCount) ? matrix2[i, j] : 0);
+                    result[i, j] = ((i < matrix1.LinesCount && j < matrix1.ColumnsCount) ? 
+                        matrix1[i, j] : (Rational)0) +
+                        ((i < matrix2.LinesCount && j < matrix2.ColumnsCount) ? matrix2[i, j] : (Rational)0);
             return result;
         }
 
@@ -240,12 +241,13 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             var result = new Matrix(resultLinesCount, resultColumnsCount);
             for (var i = 0; i < resultLinesCount; i++)
                 for (var j = 0; j < resultColumnsCount; j++)
-                    result[i, j] = ((i < matrix1.LinesCount && j < matrix1.ColumnsCount) ? matrix1[i, j] : 0) -
-                        ((i < matrix2.LinesCount && j < matrix2.ColumnsCount) ? matrix2[i, j] : 0);
+                    result[i, j] = ((i < matrix1.LinesCount && j < matrix1.ColumnsCount) 
+                        ? matrix1[i, j] : (Rational)0) -
+                        ((i < matrix2.LinesCount && j < matrix2.ColumnsCount) ? matrix2[i, j] : (Rational)0);
             return result;
         }
 
-        public static Matrix operator *(double coefficient, Matrix matrix)
+        public static Matrix operator *(Rational coefficient, Matrix matrix)
         {
             var result = new Matrix(matrix._array);
             for (var i = 0; i < result._linesCount; i++)
@@ -287,10 +289,10 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             return result;
         }
 
-        public double Trace()
+        public Rational Trace()
         {
             var mainDiagonalLength = (_linesCount > _columnsCount) ? _columnsCount : _linesCount;
-            var result = 0.0;
+            var result = (Rational)0;
             for (int i = 0; i < mainDiagonalLength; i++) result += _array[i, i];
             return result;
         }
@@ -304,7 +306,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             var temp = Decomposition.GaussianElimination(this).Item2;
             int i = 0;
             for (i = 0; i < temp.LinesCount; i++)
-                if ((temp.Lines[i]).Norm < Constants.DoublePrecision)
+                if ((temp.Lines[i]).Norm == 0)
                     break;
             return i;
         }
@@ -314,100 +316,42 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         #region Norms 
 
         /// <summary>
-        /// Operator p-norm, where p=1 
+        /// Operator Taxicab-norm
         /// </summary>
         /// <returns></returns>
-        public double MNorm()
+        public Rational TaxicabNorm()
         {
-            var result = 0.0;
+            var result = (Rational)0;
             foreach (var column in Columns)
             {
-                result = (result < column.PNorm(1)) ? column.PNorm(1) : result;
+                result = (result < column.TaxicabNorm()) ? column.TaxicabNorm() : result;
             }
             return result;
-        }
-
-        /// <summary>
-        /// Operator p-norm, where p=inf
-        /// </summary>
-        /// <returns></returns>
-        public double LNorm()
-        {
-            var result = 0.0;
-            foreach (var line in Lines)
-            {
-                result = (result < line.PNorm(1)) ? line.PNorm(1) : result;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Vector p-norm
-        /// </summary>
-        /// <returns></returns>
-        public double PNorm(double p)
-        {
-            if (p < 1) throw
-                   new ArgumentOutOfRangeException(nameof(p), "Argument cannot be less than 1");
-            var result = 0.0;
-            for (var i = 0; i < _linesCount; i++)
-                for (var j = 0; j < _columnsCount; j++) result += Math.Pow(Math.Abs(_array[i, j]), p);
-            return Math.Pow(result, 1 / p);
-        }
-
-        // TODO: Add spectral norm (Operator p-norm, where p=2)
-
-        /// <summary>
-        /// Special L_p,q norm
-        /// </summary>
-        /// <param name="p"></param>
-        /// <param name="q"></param>
-        /// <returns></returns>
-        public double PQNorm(double p, double q)
-        {
-            if (p < 1) throw
-                  new ArgumentOutOfRangeException(nameof(p), "Argument cannot be less than 1");
-            if (q < 1) throw
-                  new ArgumentOutOfRangeException(nameof(q), "Argument cannot be less than 1");
-            var result = 0.0;
-            foreach (var column in Columns)
-            {
-                result += Math.Pow(Math.Abs(column.PNorm(p)), q);
-            }
-            return Math.Pow(result, 1 / q);
         }
 
         /// <summary>
         /// Maximum norm
         /// </summary>
         /// <returns></returns>
-        public double MaxNorm()
+        public Rational MaxNorm()
         {
-            var result = 0.0;
+            var result = (Rational)0;
             for (var i = 0; i < _linesCount; i++)
-                for (var j = 0; j < _columnsCount; j++) result = (Math.Abs(_array[i, j]) > result) ? Math.Abs(_array[i, j]) : result;
+                for (var j = 0; j < _columnsCount; j++) result = (Rational.Abs(_array[i, j]) > result) 
+                        ? Rational.Abs(_array[i, j]) : result;
             return result;
         }
 
         /// <summary>
-        /// Frobenius norm
-        /// </summary>
-        public double FNorm { get => PNorm(2); }
-
-        /// <summary>
         /// Maximum norm as default
         /// </summary>
-        public double Norm { get => MaxNorm(); }
+        public Rational Norm { get => MaxNorm(); }
 
-        /// <summary>
-        /// Norm as an error function in robust data analysis 
-        /// </summary>
-        public double RobustNorm { get => PQNorm(2, 1); }
 
         /// <summary>
         /// Returns true if matrix is near zero (with maximum norm)
         /// </summary>
-        public bool IfZero { get => Norm < Constants.DoublePrecision; }
+        public bool IfZero { get => Norm == 0; }
 
         #endregion
 
@@ -438,4 +382,6 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
 
         #endregion
     }
+
+
 }

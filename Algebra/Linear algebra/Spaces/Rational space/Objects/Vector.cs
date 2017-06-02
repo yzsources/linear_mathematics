@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Algebra.Fields_algebra.Fields;
+using System;
 using System.Collections.Generic;
 
-namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
+namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
 {
     public class Vector
     {
@@ -15,7 +16,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// <summary>
         /// Array of coordinates
         /// </summary>
-        private double[] _array;
+        private Rational[] _array;
 
         #endregion
 
@@ -30,8 +31,8 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             if (dimension < 1) throw
                     new ArgumentOutOfRangeException(nameof(dimension), "Dimension must be positive");
             _dimension = dimension;
-            _array = new double[_dimension];
-            for (var i = 0; i < _dimension; i++) _array[i] = 0;
+            _array = new Rational[_dimension];
+            for (var i = 0; i < _dimension; i++) _array[i] = (Rational)0;
         }
 
         /// <summary>
@@ -39,23 +40,52 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// </summary>
         /// <param name="dimension">Number of coordinates</param>
         /// <param name="coordinates">Array of preassigned coordinates</param>
-        public Vector(int dimension, params double[] preassignedCoordinates)
+        public Vector(int dimension, params Rational[] preassignedCoordinates)
         {
             if (dimension < 1) throw
                     new ArgumentOutOfRangeException(nameof(dimension), "Dimension must be positive");
             if (preassignedCoordinates == null) throw
                        new ArgumentNullException(nameof(preassignedCoordinates), "Array cannot be NULL");
             _dimension = dimension;
-            _array = new double[_dimension];
+            _array = new Rational[_dimension];
             for (var i = 0; i < _dimension; i++) _array[i] =
-                    (preassignedCoordinates.Length > i) ? preassignedCoordinates[i] : 0;
+                    (preassignedCoordinates.Length > i) ? preassignedCoordinates[i] : (Rational)0;
+        }
+
+
+        /// <summary>
+        /// Constructor with preassigned dimension. First coordinates are preassigned, other coordinates are zero-filled.
+        /// </summary>
+        /// <param name="dimension">Number of coordinates</param>
+        /// <param name="coordinates">Array of preassigned coordinates</param>
+        public Vector(int dimension, params Object[] preassignedCoordinates)
+        {
+            if (dimension < 1) throw
+                    new ArgumentOutOfRangeException(nameof(dimension), "Dimension must be positive");
+            if (preassignedCoordinates == null) throw
+                       new ArgumentNullException(nameof(preassignedCoordinates), "Array cannot be NULL");
+            _dimension = dimension;
+            _array = new Rational[_dimension];
+            for (var i = 0; i < _dimension; i++)
+            {
+                if (preassignedCoordinates[i].GetType() == typeof(Int32))
+                {
+                    _array[i] = (preassignedCoordinates.Length > i) 
+                        ? (Rational)(int)preassignedCoordinates[i] : (Rational)0;
+                }
+                if (preassignedCoordinates[i].GetType() == typeof(Rational))
+                {
+                    _array[i] = (preassignedCoordinates.Length > i)
+                        ? (Rational)preassignedCoordinates[i] : (Rational)0;
+                }
+            }    
         }
 
         /// <summary>
         /// Constructor with preassigned coordinates.
         /// </summary>
         /// <param name="preassignedCoordinates">List of preassigned coordinates</param>
-        public Vector(List<double> preassignedCoordinates)
+        public Vector(List<Rational> preassignedCoordinates)
         {
             if (preassignedCoordinates == null) throw
                     new ArgumentNullException(nameof(preassignedCoordinates), "List cannot be NULL");
@@ -63,7 +93,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
                        new ArgumentOutOfRangeException(nameof(preassignedCoordinates),
                        "Number of list elements must be positive");
             _dimension = preassignedCoordinates.Count;
-            _array = new double[_dimension];
+            _array = new Rational[_dimension];
             for (var i = 0; i < _dimension; i++) _array[i] = preassignedCoordinates[i];
         }
 
@@ -71,7 +101,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// Constructor with preassigned coordinates.
         /// </summary>
         /// <param name="preassignedCoordinates">Array of preassigned coordinates</param>
-        public Vector(params double[] preassignedCoordinates)
+        public Vector(params Rational[] preassignedCoordinates)
         {
             if (preassignedCoordinates == null) throw
                     new ArgumentNullException(nameof(preassignedCoordinates), "Array cannot be NULL");
@@ -79,8 +109,30 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
            new ArgumentOutOfRangeException(nameof(preassignedCoordinates),
            "Number of array elements must be positive");
             _dimension = preassignedCoordinates.Length;
-            _array = new double[_dimension];
+            _array = new Rational[_dimension];
             for (var i = 0; i < _dimension; i++) _array[i] = preassignedCoordinates[i];
+        }
+
+        /// <summary>
+        /// Constructor with preassigned coordinates.
+        /// </summary>
+        /// <param name="preassignedCoordinates">Array of preassigned coordinates</param>
+        public Vector(params Object[] preassignedCoordinates)
+        {
+            if (preassignedCoordinates == null) throw
+                    new ArgumentNullException(nameof(preassignedCoordinates), "Array cannot be NULL");
+            if (preassignedCoordinates.Length < 1) throw
+           new ArgumentOutOfRangeException(nameof(preassignedCoordinates),
+           "Number of array elements must be positive");
+            _dimension = preassignedCoordinates.Length;
+            _array = new Rational[_dimension];
+            for (var i = 0; i < _dimension; i++)
+            {
+                if(preassignedCoordinates[i].GetType()==typeof(Int32))
+                    _array[i] =(Rational)(int)preassignedCoordinates[i];
+                if (preassignedCoordinates[i].GetType() == typeof(Rational))
+                    _array[i] = (Rational)preassignedCoordinates[i];
+            }
         }
 
         #endregion
@@ -91,13 +143,13 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         {
             var result = "";
             for (var i = 0; i < _dimension; i++) result +=
-                    (_array[i].ToString() + ((i < _dimension - 1) ? " " : ""));
+                    (_array[i].ToString() + ((i < _dimension - 1) ? "   " : ""));
             return result;
         }
 
         public int Dimension { get => _dimension; }
 
-        public double Max
+        public Rational Max
         {
             get
             {
@@ -110,7 +162,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             }
         }
 
-        public double Min
+        public Rational Min
         {
             get
             {
@@ -123,7 +175,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             }
         }
 
-        public double this[int index]
+        public Rational this[int index]
         {
             get
             {
@@ -140,13 +192,13 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             }
         }
 
-        public double[] ToArray() => _array;
+        public Rational[] ToArray() => _array;
 
-        public List<double> ToList() => new List<double>(_array);
+        public List<Rational> ToList() => new List<Rational>(_array);
 
         public void ElementsReversion(int index1, int index2)
         {
-            double temp = _array[index1];
+            Rational temp = _array[index1];
             _array[index1] = _array[index2];
             _array[index2] = temp;
         }
@@ -154,14 +206,14 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         #endregion
 
         #region Linear space and eucledian operations
-
+        
         public static Vector operator +(Vector vector1, Vector vector2)
         {
             var resultDimension = (vector1.Dimension >= vector2.Dimension) ? vector1.Dimension : vector2.Dimension;
             var result = new Vector(resultDimension);
             for (var i = 0; i < resultDimension; i++)
-                result[i] = ((i < vector1.Dimension) ? vector1[i] : 0) +
-                    ((i < vector2.Dimension) ? vector2[i] : 0);
+                result[i] = ((i < vector1.Dimension) ? vector1[i] : (Rational)0) +
+                    ((i < vector2.Dimension) ? vector2[i] : (Rational)0);
             return result;
         }
 
@@ -170,12 +222,12 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             var resultDimension = (vector1.Dimension >= vector2.Dimension) ? vector1.Dimension : vector2.Dimension;
             var result = new Vector(resultDimension);
             for (var i = 0; i < resultDimension; i++)
-                result[i] = ((i < vector1.Dimension) ? vector1[i] : 0) -
-                    ((i < vector2.Dimension) ? vector2[i] : 0);
+                result[i] = ((i < vector1.Dimension) ? vector1[i] : (Rational)0) -
+                    ((i < vector2.Dimension) ? vector2[i] : (Rational)0);
             return result;
         }
 
-        public static Vector operator *(double coefficient, Vector vector)
+        public static Vector operator *(Rational coefficient, Vector vector)
         {
             var result = new Vector(vector._array);
             for (var i = 0; i < result.Dimension; i++) result[i] *= coefficient;
@@ -188,10 +240,10 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// <param name="vector1"></param>
         /// <param name="vector2"></param>
         /// <returns></returns>
-        public static double operator *(Vector vector1, Vector vector2)
+        public static Rational operator *(Vector vector1, Vector vector2)
         {
             var resultDimension = (vector1.Dimension <= vector2.Dimension) ? vector1.Dimension : vector2.Dimension;
-            var result = 0.0;
+            var result = (Rational)0;
             for (var i = 0; i < resultDimension; i++)
                 result += vector1[i] * vector2[i];
             return result;
@@ -202,92 +254,70 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         #region Norms, norming
 
         /// <summary>
-        /// Returns p-norm or Holder-space norm
+        /// Returns taxicab norm
         /// </summary>
-        /// <param name="p">Index of Holder-space. (For Euclidean space p=2)</param>
         /// <returns></returns>
-        public double PNorm(double p)
+        public Rational TaxicabNorm()
         {
-            if (p < 1) throw
-                    new ArgumentOutOfRangeException(nameof(p), "Argument cannot be less than 1");
-            var result = 0.0;
+            var result = (Rational)0;
             foreach (var coordinate in _array)
             {
-                result += Math.Pow(Math.Abs(coordinate), p);
+                result += Rational.Abs(coordinate);
             }
-            return Math.Pow(result, 1 / p);
+            return result;
         }
 
         /// <summary>
         /// Returns maximum norm or Chebishev norm
         /// </summary>
         /// <returns></returns>
-        public double MaxNorm()
+        public Rational MaxNorm()
         {
-            var result = 0.0;
+            var result = (Rational)0;
             foreach (var coordinate in _array)
             {
-                result = (Math.Abs(coordinate) > result) ? Math.Abs(coordinate) : result;
+                result = (Rational.Abs(coordinate) > result) ? Rational.Abs(coordinate) : result;
             }
             return result;
         }
 
         /// <summary>
-        /// Norming vector by p-norm
+        /// Norming vector by taxicab-norm
         /// </summary>
-        /// <param name="p">Index of Holder-space. (For Euclidean space p=2)</param>
-        public void PNorming(double p)
+        public void TaxicabNorming()
         {
-            if (p < 1) throw
-                    new ArgumentOutOfRangeException(nameof(p), "Argument cannot be less than 1");
             if (!IfZero)
-                for (var i = 0; i < _dimension; i++) _array[i] /= PNorm(p);
+                for (var i = 0; i < _dimension; i++) _array[i] /= TaxicabNorm();
         }
 
         /// <summary>
         /// Returns maximum norm as default
         /// </summary>
-        public double Norm { get => MaxNorm(); }
+        public Rational Norm { get => MaxNorm(); }
 
-        /// <summary>
-        /// Returns euclidean norm
-        /// </summary>
-        public double EuclideanNorm { get => PNorm(2); }
 
         /// <summary>
         /// Returns true if vector is near zero (with maximum norm)
         /// </summary>
-        public bool IfZero { get => Norm < Constants.DoublePrecision; }
+        public bool IfZero { get => Norm == 0; }
 
         /// <summary>
         /// Norming vector by maximum norm
         /// </summary>
-        /// <param name="p"></param>
         public void Norming()
         {
             if (!IfZero)
                 for (var i = 0; i < _dimension; i++) _array[i] /= MaxNorm();
         }
 
-        /// <summary>
-        /// Norming vector by eucledian norm
-        /// </summary>
-        public void EuclideanNorming()
-        {
-            if (!IfZero)
-                for (var i = 0; i < _dimension; i++) _array[i] /= PNorm(2);
-        }
 
         /// <summary>
-        /// Returns normed vector with p-norm
+        /// Returns normed vector with taxicab norm
         /// </summary>
-        /// <param name="p">Index of Holder-space. (For Euclidean space p=2)</param>
-        public Vector PNormed(double p)
+        public Vector TaxicabNormed()
         {
-            if (p < 1) throw
-                    new ArgumentOutOfRangeException(nameof(p), "Argument cannot be less than 1");
             var result = new Vector(_array);
-            result.PNorming(p);
+            result.TaxicabNorming();
             return result;
         }
 
@@ -302,16 +332,6 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
             return result;
         }
 
-        /// <summary>
-        /// Returns norm vector with Euclidean norm
-        /// </summary>
-        /// <returns></returns>
-        public Vector EuclideanNormed()
-        {
-            var result = new Vector(_array);
-            result.EuclideanNorming();
-            return result;
-        }
 
         #endregion
 

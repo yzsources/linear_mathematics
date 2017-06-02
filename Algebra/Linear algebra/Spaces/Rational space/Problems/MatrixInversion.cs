@@ -1,9 +1,10 @@
-﻿using Algebra.Linear_algebra.Spaces.Real_space.Objects;
+﻿using Algebra.Fields_algebra.Fields;
+using Algebra.Linear_algebra.Spaces.Rational_space.Objects;
 using System;
 
-namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
+namespace Algebra.Linear_algebra.Spaces.Rational_space.Problems
 {
-    public class MatrixInversion
+    public static class MatrixInversion
     {
         public static Matrix ByMatrixEquation(Matrix matrix, Func<Matrix, Matrix, Matrix> method)
         {
@@ -11,7 +12,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
                 throw new ArgumentException(nameof(matrix), "Only for squared matrix");
             var dimension = matrix.LinesCount;
             var identityMatrix = new Matrix(dimension, dimension);
-            for (var i = 0; i < dimension; i++) identityMatrix[i, i] = 1.0;
+            for (var i = 0; i < dimension; i++) identityMatrix[i, i] = (Rational)1;
             return method(matrix, identityMatrix);
         }
 
@@ -23,12 +24,12 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
             var temp = Decomposition.GaussianElimination(matrix);
             int rank = 0;
             for (rank = 0; rank < temp.Item2.LinesCount; rank++)
-                if ((temp.Item2.Lines[rank]).Norm < Constants.DoublePrecision)
+                if ((temp.Item2.Lines[rank]).Norm == 0)
                     break;
             if (rank != dimension)
                 throw new ArgumentException("Matrix cannot be degenerated");
             var result = new Matrix(dimension, dimension);
-            for (var i = 0; i < dimension; i++) result[i, i] = 1.0;
+            for (var i = 0; i < dimension; i++) result[i, i] = (Rational)1;
             foreach (var simpleAction in temp.Item1)
             {
                 switch (simpleAction.Type)
@@ -69,4 +70,5 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
             return result;
         }
     }
+
 }

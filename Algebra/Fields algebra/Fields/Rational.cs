@@ -87,6 +87,8 @@ namespace Algebra.Fields_algebra.Fields
         #endregion
 
         #region Arithmetic operators
+        public static Rational operator - (Rational number) 
+            => new Rational(-number._numerator,number._denominator);
         public static Rational operator +(Rational number1, Rational number2) =>
             new Rational(number1._numerator * number2._denominator
         + number2._numerator * number1._denominator,

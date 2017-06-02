@@ -1,7 +1,8 @@
-﻿using Algebra.Linear_algebra.Spaces.Real_space.Objects;
+﻿using Algebra.Fields_algebra.Fields;
+using Algebra.Linear_algebra.Spaces.Rational_space.Objects;
 using System;
 
-namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
+namespace Algebra.Linear_algebra.Spaces.Rational_space.Problems
 {
     public static class LinearSystem
     {
@@ -21,7 +22,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
                 throw new ArgumentException(nameof(rightSide), "Imcompatibility between matrixes dimensions");
             var lupResult = Decomposition.LUP(leftSide);
             for (var i = 0; i < leftSideDimension; i++)
-                if (Math.Abs(lupResult.Item2[i, i]) < Constants.DoublePrecision)
+                if (Rational.Abs(lupResult.Item2[i, i]) == 0)
                     throw new ArgumentException(nameof(leftSide), "Matrix cannot be degenerated");
             var _reversedRightSide = lupResult.Item3 * rightSide;
             var result = new Matrix(rightSide.LinesCount, rightSide.ColumnsCount);
@@ -29,7 +30,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
             {
                 for (int i = 0; i < leftSideDimension; i++)
                 {
-                    var s = 0.0;
+                    var s = (Rational)0;
                     if (i != 0)
                         for (var k = 0; k < i; k++) s += lupResult.Item1[i, k] * result[k, j];
                     result[i, j] = _reversedRightSide[i, j] - s;
@@ -40,7 +41,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
             {
                 for (var i = leftSideDimension - 1; i >= 0; i--)
                 {
-                    var s = 0.0;
+                    var s = (Rational)0;
                     if (i != leftSideDimension - 1)
                         for (var k = i + 1; k < leftSideDimension; k++) s += lupResult.Item2[i, k] * result[k, j];
                     result[i, j] = (1 / lupResult.Item2[i, i]) * (_reversedRightSide[i, j] - s);
@@ -67,7 +68,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
                 throw new ArgumentException(nameof(rightSide), "Imcompatibility between matrixes dimensions");
             var lupResult = Decomposition.LUP(leftSide);
             for (var i = 0; i < leftSideDimension; i++)
-                if (Math.Abs(lupResult.Item2[i, i]) < Constants.DoublePrecision)
+                if (Rational.Abs(lupResult.Item2[i, i]) == 0)
                     throw new ArgumentException(nameof(leftSide), "Matrix cannot be degenerated");
             var tempRightSide = rightSide;
             var result = new Matrix(rightSide.LinesCount, rightSide.ColumnsCount);
@@ -75,7 +76,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
             {
                 for (int i = 0; i < tempRightSide.LinesCount; i++)
                 {
-                    var s = 0.0;
+                    var s = (Rational)0;
                     if (j != 0)
                         for (var k = 0; k < j; k++) s += lupResult.Item2[k, j] * result[i, k];
                     result[i, j] = (tempRightSide[i, j] - s) / lupResult.Item2[j, j];
@@ -86,9 +87,10 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
             {
                 for (var i = 0; i < tempRightSide.LinesCount; i++)
                 {
-                    var s = 0.0;
+                    var s = (Rational)0;
                     if (j != tempRightSide.ColumnsCount - 1)
-                        for (var k = j + 1; k < tempRightSide.ColumnsCount; k++) s += lupResult.Item1[k, j] * result[i, k];
+                        for (var k = j + 1; k < tempRightSide.ColumnsCount; k++)
+                            s += lupResult.Item1[k, j] * result[i, k];
                     result[i, j] = tempRightSide[i, j] - s;
                 }
             }
@@ -109,7 +111,5 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
             return RightLUP(leftSideRight, LeftLUP(leftSideLeft, rightSide));
         }
         #endregion
-
     }
-
 }

@@ -1,9 +1,10 @@
-﻿using Algebra.Linear_algebra.Spaces.Real_space.Extra_objects;
-using Algebra.Linear_algebra.Spaces.Real_space.Objects;
+﻿using Algebra.Fields_algebra.Fields;
+using Algebra.Linear_algebra.Spaces.Rational_space.Extra_objects;
+using Algebra.Linear_algebra.Spaces.Rational_space.Objects;
 using System;
 using System.Collections.Generic;
 
-namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
+namespace Algebra.Linear_algebra.Spaces.Rational_space.Problems
 {
     public static class Decomposition
     {
@@ -21,14 +22,15 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
             var L = new Matrix(dimension, dimension);
             var P = new Matrix(dimension, dimension);
             var reversionsCount = 0;
-            for (var i = 0; i < dimension; i++) L[i, i] = P[i, i] = 1;
+            for (var i = 0; i < dimension; i++) L[i, i] = P[i, i] = (Rational)1;
             var maxElementIndex = 0;
             for (var i = 0; i < dimension - 1; i++)
             {
                 maxElementIndex = i;
                 for (var j = i; j < dimension; j++)
-                    maxElementIndex = (Math.Abs(U[j, i]) > Math.Abs(U[maxElementIndex, i])) ? j : maxElementIndex;
-                if (Math.Abs(U[maxElementIndex, i]) < Constants.DoublePrecision)
+                    maxElementIndex = (Rational.Abs(U[j, i]) > Rational.Abs(U[maxElementIndex, i])) ? 
+                        j : maxElementIndex;
+                if (Rational.Abs(U[maxElementIndex, i]) == 0)
                     continue;
                 if (i != maxElementIndex)
                 {
@@ -47,7 +49,7 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
                 for (var j = 0; j < i; j++)
                 {
                     L[i, j] = U[i, j];
-                    U[i, j] = 0;
+                    U[i, j] = (Rational)0;
                 }
             return new Tuple<Matrix, Matrix, Matrix, int>(L, U, P, reversionsCount);
         }
@@ -72,16 +74,17 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Problems
                 for (var linesStep = i; linesStep < result.LinesCount; linesStep++)
                 {
                     var linesIndex = (upper) ? linesStep : linesCount - linesStep - 1;
-                    if (maxElementFinding) mainElementIndex = (Math.Abs(result[linesIndex, currentColumnIndex]) >
-                            Math.Abs(result[mainElementIndex, currentColumnIndex])) ? linesIndex : mainElementIndex;
+                    if (maxElementFinding) mainElementIndex = (Rational.Abs(result[linesIndex, currentColumnIndex]) >
+                            Rational.Abs(result[mainElementIndex, currentColumnIndex])) 
+                            ? linesIndex : mainElementIndex;
                     else
-                    if (Math.Abs(result[linesIndex, currentColumnIndex]) > Constants.DoublePrecision)
+                    if (Rational.Abs(result[linesIndex, currentColumnIndex]) != 0)
                     {
                         mainElementIndex = linesIndex;
                         break;
                     }
                 }
-                if (Math.Abs(result[mainElementIndex, currentColumnIndex]) < Constants.DoublePrecision)
+                if (Rational.Abs(result[mainElementIndex, currentColumnIndex]) == 0)
                     continue;
                 if (currentLineIndex != mainElementIndex)
                 {

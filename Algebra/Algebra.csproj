@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Fields algebra\Fields\Complex.cs" />
     <Compile Include="Fields algebra\Fields\Rational.cs" />
     <Compile Include="Fields algebra\Problems\IntegerCalculations.cs" />
     <Compile Include="Linear algebra\Enums\SimpleActionType.cs" />

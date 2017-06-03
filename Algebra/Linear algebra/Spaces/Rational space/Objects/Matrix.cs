@@ -64,8 +64,8 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
             _array = new Rational[_linesCount, _columnsCount];
             for (var i = 0; i < _linesCount; i++)
                 for (var j = 0; j < _columnsCount; j++) _array[i, j] =
-                               (i < preassignedCoordinates.GetLength(0) && j < preassignedCoordinates.GetLength(1)) ?
-                               preassignedCoordinates[i, j] : (Rational)0;
+                               (i < preassignedCoordinates.GetLength(0) && j < preassignedCoordinates.GetLength(1)) 
+                               ? preassignedCoordinates[i, j].Clone() as Rational : (Rational)0;
         }
 
         /// <summary>
@@ -80,7 +80,8 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
             _columnsCount = preassignedCoordinates.GetLength(1);
             _array = new Rational[_linesCount, _columnsCount];
             for (var i = 0; i < _linesCount; i++)
-                for (var j = 0; j < _columnsCount; j++) _array[i, j] = preassignedCoordinates[i, j];
+                for (var j = 0; j < _columnsCount; j++)
+                    _array[i, j] = preassignedCoordinates[i, j].Clone() as Rational;
         }
 
         #endregion
@@ -116,7 +117,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
                         new ArgumentOutOfRangeException(nameof(lineIndex), "Index is out of range");
                 if (columnIndex < 0 || columnIndex >= _columnsCount) throw
                         new ArgumentOutOfRangeException(nameof(columnIndex), "Index is out of range");
-                _array[lineIndex, columnIndex] = value;
+                _array[lineIndex, columnIndex] = value.Clone() as Rational;
             }
         }
 
@@ -155,7 +156,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
             if (lineIndex < 0 || lineIndex >= _linesCount) throw
                     new ArgumentOutOfRangeException(nameof(lineIndex), "Index is out of range");
             for (var j = 0; j < _columnsCount; j++)
-                _array[lineIndex, j] = (j < vector.Dimension) ? vector[j] : (Rational)0;
+                _array[lineIndex, j] = (j < vector.Dimension) ? vector[j].Clone() as Rational : (Rational)0;
         }
 
         public void VectorToColumn(int columnIndex, Vector vector)
@@ -163,7 +164,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
             if (columnIndex < 0 || columnIndex >= _columnsCount) throw
                     new ArgumentOutOfRangeException(nameof(columnIndex), "Index is out of range");
             for (var i = 0; i < _linesCount; i++)
-                _array[i, columnIndex] = (i < vector.Dimension) ? vector[i] : (Rational)0;
+                _array[i, columnIndex] = (i < vector.Dimension) ? vector[i].Clone() as Rational : (Rational)0;
         }
 
         public void LinesReversion(int lineIndex1, int lineIndex2)
@@ -189,9 +190,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
             {
                 var result = Lines[0].Min;
                 foreach (var line in Lines)
-                {
-                    result = (result < line.Min) ? line.Min : result;
-                }
+                    if (result < line.Min) result = line.Min;
                 return result;
             }
         }
@@ -206,9 +205,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
             {
                 var result = Columns[0].Max;
                 foreach (var column in Columns)
-                {
-                    result = (result < column.Max) ? column.Max : result;
-                }
+                    if (result > column.Max) result = column.Max;
                 return result;
             }
         }
@@ -323,9 +320,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
         {
             var result = (Rational)0;
             foreach (var column in Columns)
-            {
-                result = (result < column.TaxicabNorm()) ? column.TaxicabNorm() : result;
-            }
+                if (result < column.TaxicabNorm()) result = column.TaxicabNorm();
             return result;
         }
 
@@ -337,8 +332,8 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
         {
             var result = (Rational)0;
             for (var i = 0; i < _linesCount; i++)
-                for (var j = 0; j < _columnsCount; j++) result = (Rational.Abs(_array[i, j]) > result) 
-                        ? Rational.Abs(_array[i, j]) : result;
+                for (var j = 0; j < _columnsCount; j++)
+                    if (Rational.Abs(_array[i, j]) > result) result=Rational.Abs(_array[i, j]);
             return result;
         }
 

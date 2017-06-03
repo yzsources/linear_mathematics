@@ -2,11 +2,15 @@
 
 namespace Algebra.Fields_algebra.Fields
 {
-    public class Complex
+    public class Complex: ICloneable
     {
         #region Private
         private double _real;
         private double _imaginary;
+        #endregion
+
+        #region ICloneable
+        public object Clone() => new Complex(_real, _imaginary);
         #endregion
 
         #region Properties

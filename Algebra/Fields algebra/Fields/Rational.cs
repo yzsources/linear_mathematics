@@ -3,7 +3,7 @@ using System;
 
 namespace Algebra.Fields_algebra.Fields
 {
-    public class Rational
+    public class Rational: ICloneable
     {
         #region Private
         private int _numerator;
@@ -17,6 +17,10 @@ namespace Algebra.Fields_algebra.Fields
             _numerator = (sign) ? -Math.Abs(_numerator) / gcd : Math.Abs(_numerator) / gcd;
             _denominator = Math.Abs(_denominator) / gcd;
         }
+        #endregion
+
+        #region ICloneable
+        public object Clone() => new Rational(_numerator, _denominator);
         #endregion
 
         #region Constructors and gcd algorithm settings

@@ -38,7 +38,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Extra_objects
             _type = type;
             _firstVector = firstVector;
             _secondVector = -1;
-            _coefficient = coefficient;
+            _coefficient = coefficient.Clone() as Rational;
         }
 
         public SimpleAction(SimpleActionType type, int firstVector, int secondVector, Rational coefficient)
@@ -46,7 +46,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Extra_objects
             _type = type;
             _firstVector = firstVector;
             _secondVector = secondVector;
-            _coefficient = coefficient;
+            _coefficient = coefficient.Clone() as Rational;
         }
     }
 }

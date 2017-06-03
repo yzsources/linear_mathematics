@@ -49,7 +49,8 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
             _dimension = dimension;
             _array = new Rational[_dimension];
             for (var i = 0; i < _dimension; i++) _array[i] =
-                    (preassignedCoordinates.Length > i) ? preassignedCoordinates[i] : (Rational)0;
+                    (preassignedCoordinates.Length > i) 
+                    ? preassignedCoordinates[i].Clone() as Rational : (Rational)0;
         }
 
 
@@ -94,7 +95,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
                        "Number of list elements must be positive");
             _dimension = preassignedCoordinates.Count;
             _array = new Rational[_dimension];
-            for (var i = 0; i < _dimension; i++) _array[i] = preassignedCoordinates[i];
+            for (var i = 0; i < _dimension; i++) _array[i] = preassignedCoordinates[i].Clone() as Rational;
         }
 
         /// <summary>
@@ -110,7 +111,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
            "Number of array elements must be positive");
             _dimension = preassignedCoordinates.Length;
             _array = new Rational[_dimension];
-            for (var i = 0; i < _dimension; i++) _array[i] = preassignedCoordinates[i];
+            for (var i = 0; i < _dimension; i++) _array[i] = preassignedCoordinates[i].Clone() as Rational;
         }
 
         /// <summary>
@@ -153,11 +154,9 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
         {
             get
             {
-                var result = _array[0];
+                var result = _array[0].Clone() as Rational;
                 foreach (var coordinate in _array)
-                {
-                    result = (result < coordinate) ? coordinate : result;
-                }
+                    if (result < coordinate) result = coordinate.Clone() as Rational;
                 return result;
             }
         }
@@ -166,11 +165,9 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
         {
             get
             {
-                var result = _array[0];
+                var result = _array[0].Clone() as Rational;
                 foreach (var coordinate in _array)
-                {
-                    result = (result > coordinate) ? coordinate : result;
-                }
+                    if (result > coordinate) result = coordinate.Clone() as Rational;
                 return result;
             }
         }
@@ -188,7 +185,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
             {
                 if (index < 0 || index >= _dimension)
                     throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range");
-                _array[index] = value;
+                _array[index] = value.Clone() as Rational;
             }
         }
 
@@ -198,9 +195,9 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
 
         public void ElementsReversion(int index1, int index2)
         {
-            Rational temp = _array[index1];
-            _array[index1] = _array[index2];
-            _array[index2] = temp;
+            var temp = _array[index1].Clone() as Rational;
+            _array[index1] = _array[index2].Clone() as Rational;
+            _array[index2] = temp.Clone() as Rational;
         }
 
         #endregion
@@ -275,9 +272,7 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
         {
             var result = (Rational)0;
             foreach (var coordinate in _array)
-            {
-                result = (Rational.Abs(coordinate) > result) ? Rational.Abs(coordinate) : result;
-            }
+                if (Rational.Abs(coordinate) > result) result = Rational.Abs(coordinate);
             return result;
         }
 

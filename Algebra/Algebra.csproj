@@ -52,8 +52,10 @@
     <Compile Include="Linear algebra\Spaces\Complex space\Problems\LinearSystem.cs" />
     <Compile Include="Linear algebra\Spaces\Complex space\Problems\MatrixInversion.cs" />
     <Compile Include="Linear algebra\Spaces\Rational space\Extra objects\SimpleAction.cs" />
+    <Compile Include="Linear algebra\Spaces\Rational space\Objects\Polynomial.cs" />
     <Compile Include="Linear algebra\Spaces\Rational space\Problems\LinearSystem.cs" />
     <Compile Include="Linear algebra\Spaces\Rational space\Problems\MatrixInversion.cs" />
+    <Compile Include="Linear algebra\Spaces\Rational space\Problems\PolynomialGeneration.cs" />
     <Compile Include="Linear algebra\Spaces\Real space\Extra objects\SimpleAction.cs" />
     <Compile Include="Linear algebra\Spaces\Rational space\Objects\Matrix.cs" />
     <Compile Include="Linear algebra\Spaces\Rational space\Objects\Vector.cs" />

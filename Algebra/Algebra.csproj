@@ -45,6 +45,12 @@
     <Compile Include="Fields algebra\Fields\Rational.cs" />
     <Compile Include="Fields algebra\Problems\IntegerCalculations.cs" />
     <Compile Include="Linear algebra\Enums\SimpleActionType.cs" />
+    <Compile Include="Linear algebra\Spaces\Complex space\Extra objects\SimpleAction.cs" />
+    <Compile Include="Linear algebra\Spaces\Complex space\Objects\Matrix.cs" />
+    <Compile Include="Linear algebra\Spaces\Complex space\Objects\Vector.cs" />
+    <Compile Include="Linear algebra\Spaces\Complex space\Problems\Decomposition.cs" />
+    <Compile Include="Linear algebra\Spaces\Complex space\Problems\LinearSystem.cs" />
+    <Compile Include="Linear algebra\Spaces\Complex space\Problems\MatrixInversion.cs" />
     <Compile Include="Linear algebra\Spaces\Rational space\Extra objects\SimpleAction.cs" />
     <Compile Include="Linear algebra\Spaces\Rational space\Problems\LinearSystem.cs" />
     <Compile Include="Linear algebra\Spaces\Rational space\Problems\MatrixInversion.cs" />
@@ -61,8 +67,6 @@
     <Compile Include="Linear algebra\Spaces\Real space\Problems\SingularValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Linear algebra\Spaces\Complex space\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

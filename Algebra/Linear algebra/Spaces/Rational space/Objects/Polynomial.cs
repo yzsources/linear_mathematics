@@ -30,8 +30,16 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
             if (preassignedCoefficients.Count < 1) throw
                        new ArgumentOutOfRangeException(nameof(preassignedCoefficients),
                        "Number of list elements must be positive");
-            _degree = preassignedCoefficients.Count-1;
-            _coefficients = new Vector(preassignedCoefficients);
+            var asArray = preassignedCoefficients.ToArray();
+            var zeroCount = 0;
+            for (var i = asArray.Length - 1; i >= 0; i--)
+                if (asArray[i] == 0) zeroCount++;
+                else break;
+            if (asArray.Length - zeroCount == 0) throw
+                         new ArgumentException(nameof(preassignedCoefficients), 
+                         "Number of non-zero coeffitients must be positive");
+            _degree = asArray.Length-1;
+            _coefficients = new Vector(asArray.Length-zeroCount,asArray);
         }
 
         public Polynomial(params Rational[] preassignedCoefficients)
@@ -41,8 +49,15 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
             if (preassignedCoefficients.Length < 1) throw
            new ArgumentOutOfRangeException(nameof(preassignedCoefficients),
            "Number of array elements must be positive");
+            var zeroCount = 0;
+            for (var i = preassignedCoefficients.Length - 1; i >= 0; i--)
+                if (preassignedCoefficients[i] == 0) zeroCount++;
+                else break;
+            if (preassignedCoefficients.Length - zeroCount == 0) throw
+             new ArgumentException(nameof(preassignedCoefficients),
+             "Number of non-zero coeffitients must be positive");
             _degree = preassignedCoefficients.Length-1;
-            _coefficients = new Vector(preassignedCoefficients);
+            _coefficients = new Vector(preassignedCoefficients.Length-zeroCount,preassignedCoefficients);
         }
 
         public Polynomial(params Object[] preassignedCoefficients)
@@ -52,13 +67,31 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
             if (preassignedCoefficients.Length < 1) throw
            new ArgumentOutOfRangeException(nameof(preassignedCoefficients),
            "Number of array elements must be positive");
-            _degree = preassignedCoefficients.Length - 1;
-            _coefficients = new Vector(preassignedCoefficients);
+            var asArray = (new Vector(preassignedCoefficients)).ToArray();
+            var zeroCount = 0;
+            for (var i = asArray.Length - 1; i >= 0; i--)
+                if (asArray[i] == 0) zeroCount++;
+                else break;
+            if (asArray.Length - zeroCount == 0) throw
+             new ArgumentException(nameof(preassignedCoefficients),
+             "Number of non-zero coeffitients must be positive");
+            _degree = asArray.Length - 1;
+            _coefficients = new Vector(asArray.Length - zeroCount, preassignedCoefficients);
         }
 
         public Polynomial(Vector coefficients)
         {
-            _degree= coefficients.Dimension - 1;
+            if (coefficients == null) throw
+                     new ArgumentNullException(nameof(coefficients), "Array cannot be NULL");
+            var asArray = coefficients.ToArray();
+            var zeroCount = 0;
+            for (var i = asArray.Length - 1; i >= 0; i--)
+                if (asArray[i] == 0) zeroCount++;
+                else break;
+            if (asArray.Length - zeroCount == 0) throw
+             new ArgumentException(nameof(coefficients),
+             "Number of non-zero coeffitients must be positive");
+            _degree = coefficients.Dimension - 1;
             _coefficients = new Vector(coefficients.ToArray());
         }
         #endregion

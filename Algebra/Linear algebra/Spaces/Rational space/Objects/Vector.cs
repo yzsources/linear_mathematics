@@ -281,8 +281,9 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
         /// </summary>
         public void TaxicabNorming()
         {
+            var currentTaxicabNorm = TaxicabNorm();
             if (!IfZero)
-                for (var i = 0; i < _dimension; i++) _array[i] /= TaxicabNorm();
+                for (var i = 0; i < _dimension; i++) _array[i] /= currentTaxicabNorm;
         }
 
         /// <summary>
@@ -301,8 +302,9 @@ namespace Algebra.Linear_algebra.Spaces.Rational_space.Objects
         /// </summary>
         public void Norming()
         {
+            var currentMaxNorm = MaxNorm();
             if (!IfZero)
-                for (var i = 0; i < _dimension; i++) _array[i] /= MaxNorm();
+                for (var i = 0; i < _dimension; i++) _array[i] /= currentMaxNorm;
         }
 
 

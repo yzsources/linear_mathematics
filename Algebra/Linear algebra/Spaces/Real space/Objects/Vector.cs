@@ -240,8 +240,9 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         {
             if (p < 1) throw
                     new ArgumentOutOfRangeException(nameof(p), "Argument cannot be less than 1");
+            var currentPNorm = PNorm(p);
             if (!IfZero)
-                for (var i = 0; i < _dimension; i++) _array[i] /= PNorm(p);
+                for (var i = 0; i < _dimension; i++) _array[i] /= currentPNorm;
         }
 
         /// <summary>
@@ -265,8 +266,9 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// <param name="p"></param>
         public void Norming()
         {
+            var currentMaxNorm = MaxNorm();
             if (!IfZero)
-                for (var i = 0; i < _dimension; i++) _array[i] /= MaxNorm();
+                for (var i = 0; i < _dimension; i++) _array[i] /= currentMaxNorm;
         }
 
         /// <summary>
@@ -274,8 +276,9 @@ namespace Algebra.Linear_algebra.Spaces.Real_space.Objects
         /// </summary>
         public void EuclideanNorming()
         {
+            var currentPNorm = PNorm(2);
             if (!IfZero)
-                for (var i = 0; i < _dimension; i++) _array[i] /= PNorm(2);
+                for (var i = 0; i < _dimension; i++) _array[i] /= currentPNorm;
         }
 
         /// <summary>
